@@ -156,6 +156,30 @@ RSpec.describe 'GlintReach Campaigns API', type: :request do
       expect(campaign.reload).to have_attributes(name: 'Renamed', status: 'draft')
     end
 
+    it 'saves and returns the brief fields' do
+      campaign = create_campaign
+      brief = { offer: '20% off', key_message: 'Built to last', desired_action: 'Visit the store',
+                channels: %w[instagram facebook], starts_at: '2026-11-01T00:00:00Z', ends_at: '2026-11-30T00:00:00Z' }
+
+      patch "#{base_path}/#{campaign.id}", params: { campaign: brief }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      body = response.parsed_body
+      expect(body).to include('offer' => '20% off', 'key_message' => 'Built to last', 'desired_action' => 'Visit the store',
+                              'channels' => %w[instagram facebook])
+      expect(campaign.reload.channels).to eq(%w[instagram facebook])
+    end
+
+    it 'returns 422 for unsupported channels' do
+      campaign = create_campaign
+
+      patch "#{base_path}/#{campaign.id}", params: { campaign: { channels: ['myspace'] } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['attributes']).to eq(['channels'])
+      expect(campaign.reload.channels).to eq([])
+    end
+
     it 'rejects edits to a completed campaign' do
       campaign = create_campaign(status: :completed)
 

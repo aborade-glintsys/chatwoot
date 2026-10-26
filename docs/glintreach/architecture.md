@@ -143,6 +143,19 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
   without `enterprise/`, no audit rows are written. Content items/variants are not audited yet.
 - API reference: [api.md](api.md).
 
+### 6.2 Implemented in Phase 03
+- `GlintReach::BrandProfile` (`glint_reach_brand_profiles`): **one per account**, enforced by a
+  unique `account_id` index and `Account has_one`. To support several profiles later, drop the unique
+  index, add `is_default`, and add `brand_profile_id` to campaigns.
+- Campaign brief columns: `offer`, `key_message`, `desired_action`, and `channels` (a string array
+  that must be a subset of the variant platforms). The existing `brief` column is shown as "Notes".
+- Brand profile changes are audited like campaigns (`Enterprise::Audit::GlintReach::BrandProfile`).
+- All brand and brief text is untrusted. It is stored as plain text and rendered only through Vue
+  text interpolation (no `v-html`). The website URL is validated and never fetched.
+- UI (admin + flag): Brand Profile, Campaigns list, and Content Studio (brief editor plus read-only
+  content). Pinia stores live in `dashboard/stores/glintReach/` and are reset when the account changes.
+- How this data reaches future AI services: [ai-inputs.md](ai-inputs.md).
+
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.
 - Jobs receive primitive IDs and re-load through the account.

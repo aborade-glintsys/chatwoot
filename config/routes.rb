@@ -179,6 +179,7 @@ Rails.application.routes.draw do
           end
           namespace :glint_reach do
             resource :shell, only: [:show]
+            resource :brand_profile, only: [:show, :update]
             resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
               post :transition, on: :member
               resources :content_items, only: [:create, :update, :destroy] do

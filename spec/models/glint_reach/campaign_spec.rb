@@ -43,6 +43,29 @@ RSpec.describe GlintReach::Campaign do
     end
   end
 
+  describe 'brief fields' do
+    let(:campaign) { build(:glint_reach_campaign, account: account, created_by: creator) }
+
+    it 'normalizes channels and accepts supported platforms' do
+      campaign.channels = [' instagram ', 'instagram', '', 'linkedin']
+      expect(campaign).to be_valid
+      expect(campaign.channels).to eq(%w[instagram linkedin])
+    end
+
+    it 'rejects unsupported channels' do
+      campaign.channels = %w[instagram myspace]
+      expect(campaign).not_to be_valid
+      expect(campaign.errors[:channels]).to be_present
+    end
+
+    it 'limits offer, key message and desired action lengths' do
+      expect(build(:glint_reach_campaign, account: account, created_by: creator, offer: 'a' * 5_001)).not_to be_valid
+      expect(build(:glint_reach_campaign, account: account, created_by: creator, key_message: 'a' * 5_001)).not_to be_valid
+      expect(build(:glint_reach_campaign, account: account, created_by: creator, desired_action: 'a' * 256)).not_to be_valid
+      expect(build(:glint_reach_campaign, account: account, created_by: creator, offer: 'a' * 5_000, desired_action: 'a' * 255)).to be_valid
+    end
+  end
+
   describe '#transition_to!' do
     let(:campaign) { create(:glint_reach_campaign, account: account, created_by: creator) }
 

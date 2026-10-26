@@ -761,14 +761,24 @@ const menuItems = computed(() => {
           to: accountScopedRoute('glint_reach_overview'),
         },
         {
+          name: 'GlintReach Brand Profile',
+          label: t('GLINT_REACH.MODULES.BRAND_PROFILE.TITLE'),
+          to: accountScopedRoute('glint_reach_brand_profile'),
+        },
+        {
           name: 'GlintReach Campaigns',
           label: t('GLINT_REACH.MODULES.CAMPAIGNS.TITLE'),
           to: accountScopedRoute('glint_reach_campaigns'),
+          activeOn: ['glint_reach_campaigns', 'glint_reach_campaign_new'],
         },
         {
           name: 'GlintReach Content Studio',
           label: t('GLINT_REACH.MODULES.CONTENT_STUDIO.TITLE'),
           to: accountScopedRoute('glint_reach_content_studio'),
+          activeOn: [
+            'glint_reach_content_studio',
+            'glint_reach_content_studio_campaign',
+          ],
         },
         {
           name: 'GlintReach Calendar',

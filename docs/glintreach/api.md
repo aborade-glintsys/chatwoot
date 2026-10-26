@@ -1,4 +1,4 @@
-# GlintReach API (Phase 02)
+# GlintReach API (Phases 02–03)
 
 Base path: `/api/v1/accounts/:account_id/glint_reach`
 
@@ -17,6 +17,17 @@ missing record `404`.
 Swagger sources: `swagger/paths/application/glint_reach/`, `swagger/definitions/resource/glint_reach_*.yml`.
 Regenerate JSON with `bundle exec rake swagger:build` (see "Known limitations").
 
+## Brand profile (Phase 03)
+| Method | Path | Body | Notes |
+| --- | --- | --- | --- |
+| GET | `/brand_profile` | – | `{ brand_profile: {...} }` or `{ brand_profile: null }` when none exists |
+| PUT | `/brand_profile` | `{ brand_profile: { name, description, website_url, products_services, target_audience, geographic_market, preferred_languages: [], voice_and_tone, messaging_guidelines, prohibited_claims, approved_ctas: [] } }` | Creates on first save, then updates. One profile per account |
+
+Validation: `name` is required (max 255). Long text fields max 5,000. `website_url` must be absolute
+http/https without credentials (max 2,048) and is **never fetched**. `preferred_languages` holds at
+most 10 codes like `en` or `pt-BR`. `approved_ctas` holds at most 20 entries of 100 characters each.
+Lists are trimmed and de-duplicated.
+
 ## Campaigns
 | Method | Path | Body / params | Notes |
 | --- | --- | --- | --- |
@@ -28,6 +39,10 @@ Regenerate JSON with `bundle exec rake swagger:build` (see "Known limitations").
 | POST | `/campaigns/:id/transition` | `{ status }` | See lifecycle |
 
 `objective`: `awareness | engagement | traffic | leads | sales`
+
+Phase 03 brief fields (create/update): `offer` (max 5,000), `key_message` (max 5,000),
+`desired_action` (max 255), and `channels: []`, a subset of
+`facebook | instagram | linkedin | x | tiktok`.
 
 ## Content items (`/campaigns/:campaign_id/content_items`)
 | Method | Path | Body |

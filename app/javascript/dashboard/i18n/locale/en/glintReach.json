@@ -11,13 +11,18 @@
       "DESCRIPTION": "This module is not available yet. It will appear here once it is released for your account."
     },
     "OVERVIEW": {
-      "DESCRIPTION": "GlintReach modules are being rolled out. None of them are active yet, so there is no campaign data to show.",
-      "AVAILABLE": "Available"
+      "DESCRIPTION": "Set up your brand profile, plan campaigns and write campaign briefs. More modules will be added as they are released.",
+      "AVAILABLE": "Available",
+      "OPEN": "Open"
     },
     "MODULES": {
       "OVERVIEW": {
         "TITLE": "Overview",
         "DESCRIPTION": "A summary of your GlintReach workspace."
+      },
+      "BRAND_PROFILE": {
+        "TITLE": "Brand Profile",
+        "DESCRIPTION": "Describe your brand, audience, voice and the claims to avoid."
       },
       "CAMPAIGNS": {
         "TITLE": "Campaigns",
@@ -39,6 +44,155 @@
         "TITLE": "Analytics",
         "DESCRIPTION": "Measure how campaigns perform and what they bring in."
       }
+    },
+    "FORM": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "RETRY": "Try again",
+      "NOT_SET": "Not set",
+      "REMOVE_ITEM": "Remove {item}"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This field is required.",
+      "TOO_LONG": "Must be at most {max} characters.",
+      "TOO_MANY": "You can add at most {max} items.",
+      "INVALID": "Contains an invalid value.",
+      "INVALID_URL": "Enter a full web address starting with http:// or https://.",
+      "END_BEFORE_START": "End date must be after the start date.",
+      "SERVER_REJECTED": "This value was rejected. Check it and try again."
+    },
+    "ERRORS": {
+      "LOAD_FAILED": "Could not load this page",
+      "SAVE_FAILED": "Could not save your changes. Try again."
+    },
+    "BRAND_PROFILE": {
+      "DESCRIPTION": "This information describes your brand. It is stored for this account only and will guide content created in GlintReach.",
+      "EMPTY_TITLE": "No brand profile yet",
+      "EMPTY_DESCRIPTION": "Add your brand name, audience, voice and messaging rules so every campaign starts from the same foundation.",
+      "CREATE": "Create brand profile",
+      "SAVED": "Brand profile saved",
+      "SECTIONS": {
+        "IDENTITY": "Brand",
+        "ABOUT": "About",
+        "AUDIENCE": "Audience and market",
+        "VOICE": "Voice and messaging"
+      },
+      "FIELDS": {
+        "NAME": "Brand name",
+        "WEBSITE_URL": "Website",
+        "DESCRIPTION": "Description",
+        "PRODUCTS_SERVICES": "Products and services",
+        "TARGET_AUDIENCE": "Target audience",
+        "GEOGRAPHIC_MARKET": "Geographic market",
+        "PREFERRED_LANGUAGES": "Preferred languages",
+        "VOICE_AND_TONE": "Voice and tone",
+        "MESSAGING_GUIDELINES": "Messaging guidelines",
+        "PROHIBITED_CLAIMS": "Prohibited claims",
+        "APPROVED_CTAS": "Approved calls to action"
+      },
+      "PLACEHOLDERS": {
+        "NAME": "e.g. Acme Outdoors",
+        "WEBSITE_URL": "https://www.example.com",
+        "DESCRIPTION": "What your brand does and what it stands for",
+        "PRODUCTS_SERVICES": "The products or services you promote",
+        "TARGET_AUDIENCE": "Who you want to reach",
+        "GEOGRAPHIC_MARKET": "Countries, regions or cities you serve",
+        "PREFERRED_LANGUAGES": "Add a language",
+        "VOICE_AND_TONE": "e.g. Friendly, confident, no jargon",
+        "MESSAGING_GUIDELINES": "Rules every message should follow",
+        "PROHIBITED_CLAIMS": "Claims that must never be made",
+        "APPROVED_CTAS": "Type a call to action and press Enter"
+      },
+      "HELP": {
+        "WEBSITE_URL": "Saved for reference only. GlintReach does not visit this address.",
+        "APPROVED_CTAS": "Add up to {max} short calls to action."
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Every campaign has a brief that guides its content.",
+      "NEW": "New campaign",
+      "SEARCH": "Search campaigns",
+      "STATUS_FILTER": "Filter by status",
+      "ALL_ACTIVE": "All except archived",
+      "EMPTY_TITLE": "No campaigns yet",
+      "EMPTY_DESCRIPTION": "Create a campaign and write its brief to get started.",
+      "NO_RESULTS_TITLE": "No matching campaigns",
+      "NO_RESULTS_DESCRIPTION": "Try a different search or status.",
+      "CLEAR_FILTERS": "Clear filters"
+    },
+    "CONTENT_STUDIO": {
+      "DESCRIPTION": "Write the campaign brief and review the content planned for it.",
+      "BACK": "All campaigns",
+      "PICK_CAMPAIGN": "Choose a campaign",
+      "EMPTY_TITLE": "No campaigns to work on",
+      "EMPTY_DESCRIPTION": "Content Studio works on a campaign. Create one to write its brief.",
+      "BRAND_HINT_TITLE": "Add your brand profile",
+      "BRAND_HINT_DESCRIPTION": "Your brand profile is empty. Fill it in so campaign content can follow your voice and rules."
+    },
+    "BRIEF": {
+      "TITLE": "Campaign brief",
+      "SAVE": "Save brief",
+      "CREATE": "Create campaign",
+      "SAVED": "Campaign brief saved",
+      "CREATED": "Campaign created",
+      "LOCKED": "This campaign is completed or archived, so its brief can no longer be edited.",
+      "FIELDS": {
+        "NAME": "Campaign name",
+        "OBJECTIVE": "Objective",
+        "AUDIENCE": "Audience",
+        "OFFER": "Offer",
+        "KEY_MESSAGE": "Key message",
+        "DESIRED_ACTION": "Desired action",
+        "CHANNELS": "Channels",
+        "STARTS_AT": "Start date (optional)",
+        "ENDS_AT": "End date (optional)",
+        "NOTES": "Notes"
+      },
+      "PLACEHOLDERS": {
+        "NAME": "e.g. Spring collection launch",
+        "OBJECTIVE": "Select an objective",
+        "AUDIENCE": "Who this campaign is for",
+        "OFFER": "What you are offering, e.g. 20% off for the first week",
+        "KEY_MESSAGE": "The one thing people should remember",
+        "DESIRED_ACTION": "e.g. Visit the store",
+        "NOTES": "Anything else the team should know"
+      }
+    },
+    "CONTENT": {
+      "TITLE": "Campaign content",
+      "EMPTY_TITLE": "No content yet",
+      "EMPTY_DESCRIPTION": "Content for this campaign will appear here.",
+      "NO_VARIANTS": "No channel versions yet."
+    },
+    "OBJECTIVES": {
+      "AWARENESS": "Awareness",
+      "ENGAGEMENT": "Engagement",
+      "TRAFFIC": "Traffic",
+      "LEADS": "Leads",
+      "SALES": "Sales"
+    },
+    "STATUSES": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "COMPLETED": "Completed",
+      "ARCHIVED": "Archived",
+      "READY": "Ready"
+    },
+    "CONTENT_TYPES": {
+      "POST": "Post",
+      "IMAGE": "Image",
+      "VIDEO": "Video",
+      "CAROUSEL": "Carousel",
+      "STORY": "Story"
+    },
+    "PLATFORMS": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "LINKEDIN": "LinkedIn",
+      "X": "X",
+      "TIKTOK": "TikTok"
     }
   }
 }

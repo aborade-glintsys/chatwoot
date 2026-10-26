@@ -1,0 +1,37 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  name:
+    type: string
+  description:
+    type: [string, 'null']
+  website_url:
+    type: [string, 'null']
+    description: Reference only; never fetched by the server
+  products_services:
+    type: [string, 'null']
+  target_audience:
+    type: [string, 'null']
+  geographic_market:
+    type: [string, 'null']
+  preferred_languages:
+    type: array
+    items:
+      type: string
+  voice_and_tone:
+    type: [string, 'null']
+  messaging_guidelines:
+    type: [string, 'null']
+  prohibited_claims:
+    type: [string, 'null']
+  approved_ctas:
+    type: array
+    items:
+      type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

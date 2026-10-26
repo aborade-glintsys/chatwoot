@@ -54,6 +54,9 @@ class Api::V1::Accounts::GlintReach::CampaignsController < Api::V1::Accounts::Gl
   end
 
   def campaign_params
-    params.require(:campaign).permit(:name, :objective, :brief, :target_audience, :starts_at, :ends_at)
+    params.require(:campaign).permit(
+      :name, :objective, :brief, :target_audience, :offer, :key_message, :desired_action, :starts_at, :ends_at,
+      channels: []
+    )
   end
 end

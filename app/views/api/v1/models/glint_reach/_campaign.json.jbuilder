@@ -4,6 +4,10 @@ json.name campaign.name
 json.objective campaign.objective
 json.brief campaign.brief
 json.target_audience campaign.target_audience
+json.offer campaign.offer
+json.key_message campaign.key_message
+json.desired_action campaign.desired_action
+json.channels campaign.channels
 json.status campaign.status
 json.starts_at campaign.starts_at&.to_i
 json.ends_at campaign.ends_at&.to_i

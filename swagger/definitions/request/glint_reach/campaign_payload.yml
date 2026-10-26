@@ -14,6 +14,20 @@ properties:
         type: string
       target_audience:
         type: string
+      offer:
+        type: string
+        maxLength: 5000
+      key_message:
+        type: string
+        maxLength: 5000
+      desired_action:
+        type: string
+        maxLength: 255
+      channels:
+        type: array
+        items:
+          type: string
+          enum: [facebook, instagram, linkedin, x, tiktok]
       starts_at:
         type: string
         format: date-time

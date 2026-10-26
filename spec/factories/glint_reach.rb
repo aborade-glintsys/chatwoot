@@ -6,6 +6,14 @@ FactoryBot.define do
     objective { :awareness }
   end
 
+  factory :glint_reach_brand_profile, class: 'GlintReach::BrandProfile' do
+    account
+    name { 'Acme Outdoors' }
+    website_url { 'https://acme.example' }
+    preferred_languages { %w[en] }
+    approved_ctas { ['Shop now'] }
+  end
+
   factory :glint_reach_content_item, class: 'GlintReach::ContentItem' do
     campaign factory: :glint_reach_campaign
     sequence(:title) { |n| "Content #{n}" }

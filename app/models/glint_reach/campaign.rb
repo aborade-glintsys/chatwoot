@@ -18,8 +18,13 @@ class GlintReach::Campaign < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :brief, :target_audience, length: { maximum: 10_000 }
+  validates :offer, :key_message, length: { maximum: 5_000 }
+  validates :desired_action, length: { maximum: 255 }
+  validate :channels_supported
   validate :ends_after_start
   validate :creator_belongs_to_account, on: :create
+
+  before_validation { self.channels = Array(channels).map { |channel| channel.to_s.strip }.compact_blank.uniq }
 
   scope :not_archived, -> { where.not(status: :archived) }
   scope :search_by_name, ->(term) { where('glint_reach_campaigns.name ILIKE ?', "%#{sanitize_sql_like(term)}%") }
@@ -29,6 +34,12 @@ class GlintReach::Campaign < ApplicationRecord
   end
 
   private
+
+  def channels_supported
+    return if (channels - GlintReach::ContentVariant.platforms.keys).empty?
+
+    errors.add(:channels, :inclusion)
+  end
 
   def ends_after_start
     return if starts_at.blank? || ends_at.blank? || ends_at > starts_at

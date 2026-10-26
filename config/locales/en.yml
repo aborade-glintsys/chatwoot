@@ -37,6 +37,8 @@ en:
         invalid_transition: 'cannot change from %{from} to %{to}'
         must_be_after_start: 'must be after the start time'
         not_account_member: 'must be a member of the account'
+        too_many_items: 'can have at most %{count} items'
+        cta_too_long: 'entries must be at most %{count} characters'
   administrator_notifications:
     captain:
       response_usage_alert:

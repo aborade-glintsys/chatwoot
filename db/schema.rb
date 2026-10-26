@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_065121) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_072201) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1305,6 +1305,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_065121) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "glint_reach_brand_profiles", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "website_url", limit: 2048
+    t.text "products_services"
+    t.text "target_audience"
+    t.text "geographic_market"
+    t.string "preferred_languages", default: [], null: false, array: true
+    t.text "voice_and_tone"
+    t.text "messaging_guidelines"
+    t.text "prohibited_claims"
+    t.string "approved_ctas", default: [], null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_glint_reach_brand_profiles_on_account_id", unique: true
+  end
+
   create_table "glint_reach_campaigns", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "created_by_id", null: false
@@ -1317,6 +1335,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_065121) do
     t.datetime "ends_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "offer"
+    t.text "key_message"
+    t.string "desired_action"
+    t.string "channels", default: [], null: false, array: true
     t.index ["account_id", "status"], name: "index_glint_reach_campaigns_on_account_id_and_status"
     t.index ["created_by_id"], name: "index_glint_reach_campaigns_on_created_by_id"
   end

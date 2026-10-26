@@ -888,6 +888,13 @@
     $ref: ./application/campaigns/delete.yml
 
 # GlintReach
+/api/v1/accounts/{account_id}/glint_reach/brand_profile:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/brand_profile_show.yml
+  put:
+    $ref: ./application/glint_reach/brand_profile_update.yml
 /api/v1/accounts/{account_id}/glint_reach/campaigns:
   parameters:
     - $ref: '#/components/parameters/account_id'

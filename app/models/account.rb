@@ -63,6 +63,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_auto_resolve_mode
   store_accessor :settings, :enforce_mfa
   include AccountCaptainAutoResolve
+  include GlintReachAccount
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -85,7 +86,6 @@ class Account < ApplicationRecord
   has_many :dashboard_apps, dependent: :destroy_async
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
-  has_many :glint_reach_campaigns, dependent: :destroy_async, class_name: 'GlintReach::Campaign'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :tiktok_channels, dependent: :destroy_async, class_name: '::Channel::Tiktok'

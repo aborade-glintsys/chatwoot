@@ -32,15 +32,16 @@ RSpec.describe 'GlintReach Shell API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns the shell with every module unavailable for an administrator' do
+      it 'returns the shell with Phase 03 modules available for an administrator' do
         get path, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
         body = response.parsed_body
         expect(body['product_name']).to eq('GlintReach')
         expect(body['tagline']).to eq('Create once. Reach everywhere.')
-        expect(body['modules'].pluck('key')).to eq(%w[overview campaigns content_studio calendar social_accounts analytics])
-        expect(body['modules'].pluck('available')).to all(be(false))
+        expect(body['modules'].pluck('key')).to eq(%w[overview brand_profile campaigns content_studio calendar social_accounts analytics])
+        available = body['modules'].select { |mod| mod['available'] }.pluck('key')
+        expect(available).to eq(%w[overview brand_profile campaigns content_studio])
       end
     end
 
