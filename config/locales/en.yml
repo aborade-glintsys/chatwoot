@@ -31,6 +31,12 @@
 
 en:
   hello: 'Hello world'
+  activerecord:
+    errors:
+      messages:
+        invalid_transition: 'cannot change from %{from} to %{to}'
+        must_be_after_start: 'must be after the start time'
+        not_account_member: 'must be a member of the account'
   administrator_notifications:
     captain:
       response_usage_alert:
@@ -90,6 +96,8 @@ en:
   errors:
     glint_reach:
       not_enabled: GlintReach is not enabled for this account
+      campaign_locked: 'Campaign is %{status} and can no longer be edited'
+      invalid_status_filter: Invalid status filter
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
       metadata_url:

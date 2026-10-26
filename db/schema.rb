@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_065121) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1305,6 +1305,48 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "glint_reach_campaigns", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "name", null: false
+    t.integer "objective", null: false
+    t.text "brief"
+    t.text "target_audience"
+    t.integer "status", default: 0, null: false
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_glint_reach_campaigns_on_account_id_and_status"
+    t.index ["created_by_id"], name: "index_glint_reach_campaigns_on_created_by_id"
+  end
+
+  create_table "glint_reach_content_items", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.string "title", null: false
+    t.integer "content_type", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_glint_reach_content_items_on_account_id"
+    t.index ["campaign_id", "status"], name: "index_glint_reach_content_items_on_campaign_id_and_status"
+  end
+
+  create_table "glint_reach_content_variants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "content_item_id", null: false
+    t.integer "platform", null: false
+    t.text "body"
+    t.string "call_to_action"
+    t.string "hashtags", default: [], null: false, array: true
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_glint_reach_content_variants_on_account_id"
+    t.index ["content_item_id", "platform"], name: "idx_on_content_item_id_platform_917095f209", unique: true
+  end
+
   create_table "inbox_assignment_policies", force: :cascade do |t|
     t.bigint "inbox_id", null: false
     t.bigint "assignment_policy_id", null: false
@@ -1815,6 +1857,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "glint_reach_content_items", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_content_variants", "glint_reach_content_items", column: "content_item_id", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

@@ -1,0 +1,40 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  name:
+    type: string
+  objective:
+    type: string
+    enum: [awareness, engagement, traffic, leads, sales]
+  brief:
+    type: [string, 'null']
+  target_audience:
+    type: [string, 'null']
+  status:
+    type: string
+    enum: [draft, active, paused, completed, archived]
+  starts_at:
+    type: [integer, 'null']
+    description: Unix timestamp
+  ends_at:
+    type: [integer, 'null']
+    description: Unix timestamp
+  created_by:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  content_items:
+    type: array
+    description: Present on show, create, update, archive and transition responses
+    items:
+      $ref: '#/components/schemas/glint_reach_content_item'
+  created_at:
+    type: integer
+  updated_at:
+    type: integer
