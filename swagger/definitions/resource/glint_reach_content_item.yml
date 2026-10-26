@@ -1,0 +1,22 @@
+type: object
+properties:
+  id:
+    type: integer
+  campaign_id:
+    type: integer
+  title:
+    type: string
+  content_type:
+    type: string
+    enum: [post, image, video, carousel, story]
+  status:
+    type: string
+    enum: [draft, ready, archived]
+  variants:
+    type: array
+    items:
+      $ref: '#/components/schemas/glint_reach_content_variant'
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

@@ -1,0 +1,20 @@
+type: object
+required: [variant]
+properties:
+  variant:
+    type: object
+    properties:
+      platform:
+        type: string
+        enum: [facebook, instagram, linkedin, x, tiktok]
+      body:
+        type: string
+        maxLength: 10000
+      call_to_action:
+        type: string
+        maxLength: 255
+      hashtags:
+        type: array
+        maxItems: 30
+        items:
+          type: string

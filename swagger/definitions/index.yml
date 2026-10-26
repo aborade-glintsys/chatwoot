@@ -324,3 +324,17 @@ campaign_update_payload:
 
 campaign_whatsapp_template_params:
   $ref: ./request/campaign/whatsapp_template_params.yml
+
+# GlintReach
+glint_reach_campaign:
+  $ref: ./resource/glint_reach_campaign.yml
+glint_reach_content_item:
+  $ref: ./resource/glint_reach_content_item.yml
+glint_reach_content_variant:
+  $ref: ./resource/glint_reach_content_variant.yml
+glint_reach_campaign_payload:
+  $ref: ./request/glint_reach/campaign_payload.yml
+glint_reach_content_item_payload:
+  $ref: ./request/glint_reach/content_item_payload.yml
+glint_reach_content_variant_payload:
+  $ref: ./request/glint_reach/content_variant_payload.yml

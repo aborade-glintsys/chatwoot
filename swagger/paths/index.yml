@@ -886,3 +886,60 @@
     $ref: ./application/campaigns/update.yml
   delete:
     $ref: ./application/campaigns/delete.yml
+
+# GlintReach
+/api/v1/accounts/{account_id}/glint_reach/campaigns:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/campaigns_index.yml
+  post:
+    $ref: ./application/glint_reach/campaigns_create.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/campaigns_show.yml
+  patch:
+    $ref: ./application/glint_reach/campaigns_update.yml
+  delete:
+    $ref: ./application/glint_reach/campaigns_delete.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{id}/transition:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/campaigns_transition.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/content_items_create.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  patch:
+    $ref: ./application/glint_reach/content_items_update.yml
+  delete:
+    $ref: ./application/glint_reach/content_items_delete.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{id}/transition:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/content_items_transition.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_create.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  patch:
+    $ref: ./application/glint_reach/variants_update.yml
+  delete:
+    $ref: ./application/glint_reach/variants_delete.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/transition:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_transition.yml

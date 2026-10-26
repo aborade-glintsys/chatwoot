@@ -91,7 +91,7 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
 | Models | `app/models/glint_reach/*.rb`, tables prefixed `glint_reach_` |
 | Services | `app/services/glint_reach/**` |
 | Jobs | `app/jobs/glint_reach/**` |
-| Policies | `app/policies/glint_reach/*_policy.rb` |
+| Policies | `GlintReachPolicy` (admin-only gate) applied by `Api::V1::Accounts::GlintReach::BaseController`; per-record policies only when rules diverge |
 | Controllers | `app/controllers/api/v1/accounts/glint_reach/*` → `/api/v1/accounts/:account_id/glint_reach/...` |
 | Views | `app/views/api/v1/accounts/glint_reach/**` (Jbuilder) |
 | Frontend | `routes/dashboard/glintReach/`, `api/glintReach/`, Pinia `stores/glintReach/`, `components-next/GlintReach/` |
@@ -112,11 +112,36 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
 - Everything is hidden and inert while the `glint_reach` feature flag is off.
 - No changes to existing campaign tables/APIs.
 
-## 6. Proposed domain architecture
-- Core records (later phases): brand profile, campaign, content item / post variant, schedule,
-  social connection, publish attempt, attribution link/event.
+## 6. Domain architecture
+- Core records (later phases): brand profile, schedule, social connection, publish attempt,
+  attribution link/event.
 - Service objects for workflows (generation, approval, publishing), Sidekiq jobs for async/external
   calls, Jbuilder serializers, Pundit policies.
+
+### 6.1 Implemented in Phase 02
+| Model | Table | Key fields |
+| --- | --- | --- |
+| `GlintReach::Campaign` | `glint_reach_campaigns` | account, created_by (User, must be account member), name, objective (enum), brief, target_audience, status, starts_at/ends_at |
+| `GlintReach::ContentItem` | `glint_reach_content_items` | campaign, title, content_type (enum), status |
+| `GlintReach::ContentVariant` | `glint_reach_content_variants` | content_item, platform (enum, unique per item), body, call_to_action, hashtags (string[]), status |
+
+- `account_id` is denormalized onto child tables and always **derived from the parent** in a
+  `before_validation` callback, so a child can never point at another account.
+- DB foreign keys exist only between GlintReach tables (`on_delete: :cascade`). `account_id` /
+  `created_by_id` follow Chatwoot convention (index + association, no FK). Account deletion cleans up
+  via `Account has_many :glint_reach_campaigns, dependent: :destroy_async`.
+- Lifecycle: `GlintReach::Lifecycle#transition_to!` with an explicit `TRANSITIONS` map per model;
+  invalid transitions raise `ActiveRecord::RecordInvalid` (HTTP 422). Status is never mass-assigned.
+- Safe deletion: campaigns are archived, never hard deleted. Completed/archived campaigns are
+  read-only (including their content).
+- **Platform-specific attributes:** variants store only fields common to all platforms. When a real
+  platform-specific requirement appears, add one `platform_options` jsonb column validated against a
+  per-platform allowlist, rather than per-platform columns.
+- **Audit:** campaign create/update/status changes are recorded through the existing `audited` gem →
+  `Enterprise::AuditLog` (associated with the account) via
+  `enterprise/app/models/enterprise/audit/glint_reach/campaign.rb` (`include_mod_with`). On builds
+  without `enterprise/`, no audit rows are written. Content items/variants are not audited yet.
+- API reference: [api.md](api.md).
 
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.

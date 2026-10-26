@@ -18,6 +18,8 @@ tags:
     description: Manage agents
   - name: Canned Responses
     description: Manage canned responses
+  - name: GlintReach
+    description: Manage GlintReach campaigns, content items and platform variants
   - name: Contacts
     description: Manage contacts
   - name: Contact Labels

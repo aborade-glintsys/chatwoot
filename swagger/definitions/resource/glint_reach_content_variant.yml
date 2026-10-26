@@ -1,0 +1,25 @@
+type: object
+properties:
+  id:
+    type: integer
+  content_item_id:
+    type: integer
+  platform:
+    type: string
+    enum: [facebook, instagram, linkedin, x, tiktok]
+  body:
+    type: [string, 'null']
+  call_to_action:
+    type: [string, 'null']
+  hashtags:
+    type: array
+    items:
+      type: string
+    description: Stored without the leading '#'
+  status:
+    type: string
+    enum: [draft, ready]
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

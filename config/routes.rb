@@ -179,6 +179,15 @@ Rails.application.routes.draw do
           end
           namespace :glint_reach do
             resource :shell, only: [:show]
+            resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
+              post :transition, on: :member
+              resources :content_items, only: [:create, :update, :destroy] do
+                post :transition, on: :member
+                resources :variants, controller: 'content_variants', only: [:create, :update, :destroy] do
+                  post :transition, on: :member
+                end
+              end
+            end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
             if ChatwootApp.enterprise?
