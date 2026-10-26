@@ -88,6 +88,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    glint_reach:
+      not_enabled: GlintReach is not enabled for this account
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
       metadata_url:
