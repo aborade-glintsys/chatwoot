@@ -227,6 +227,7 @@ export const colors = {
 
     black: '#000000',
     brand: '#2781F6',
+    'glint-reach': '#C9184A',
     portal: 'var(--dynamic-portal-color)',
     'portal-soft': 'var(--dynamic-portal-color-soft)',
     'portal-faint': 'var(--dynamic-portal-color-faint)',

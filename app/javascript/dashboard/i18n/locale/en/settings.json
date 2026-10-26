@@ -375,6 +375,7 @@
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campaigns",
+    "GLINT_REACH": "GlintReach",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",

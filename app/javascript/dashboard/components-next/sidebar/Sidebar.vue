@@ -29,6 +29,7 @@ import {
   resolveSidebarSort,
   sortSidebarItems,
 } from 'dashboard/helper/sidebarSort';
+import { GLINT_REACH_MODULES } from 'dashboard/routes/dashboard/glintReach/constants';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -749,6 +750,16 @@ const menuItems = computed(() => {
           to: accountScopedRoute('campaigns_whatsapp_index'),
         },
       ],
+    },
+    {
+      name: 'GlintReach',
+      label: t('SIDEBAR.GLINT_REACH'),
+      icon: 'i-lucide-radio-tower',
+      children: GLINT_REACH_MODULES.map(module => ({
+        name: `GlintReach ${module.key}`,
+        label: t(`GLINT_REACH.MODULES.${module.i18nKey}.TITLE`),
+        to: accountScopedRoute(module.routeName),
+      })),
     },
     {
       name: 'Portals',

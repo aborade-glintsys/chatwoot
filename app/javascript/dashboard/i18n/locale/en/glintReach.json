@@ -1,0 +1,44 @@
+{
+  "GLINT_REACH": {
+    "PRODUCT_NAME": "GlintReach",
+    "TAGLINE": "Create once. Reach everywhere.",
+    "DISABLED": {
+      "TITLE": "GlintReach is not enabled",
+      "DESCRIPTION": "GlintReach is not enabled for this account, or you do not have access to it. Contact an administrator of your installation to enable it."
+    },
+    "UNAVAILABLE": {
+      "BADGE": "Coming soon",
+      "DESCRIPTION": "This module is not available yet. It will appear here once it is released for your account."
+    },
+    "OVERVIEW": {
+      "DESCRIPTION": "GlintReach modules are being rolled out. None of them are active yet, so there is no campaign data to show.",
+      "AVAILABLE": "Available"
+    },
+    "MODULES": {
+      "OVERVIEW": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "A summary of your GlintReach workspace."
+      },
+      "CAMPAIGNS": {
+        "TITLE": "Campaigns",
+        "DESCRIPTION": "Plan campaigns and track them from draft to publish."
+      },
+      "CONTENT_STUDIO": {
+        "TITLE": "Content Studio",
+        "DESCRIPTION": "Create and refine posts for each channel."
+      },
+      "CALENDAR": {
+        "TITLE": "Calendar",
+        "DESCRIPTION": "See scheduled and published posts over time."
+      },
+      "SOCIAL_ACCOUNTS": {
+        "TITLE": "Social Accounts",
+        "DESCRIPTION": "Connect the social profiles you publish to."
+      },
+      "ANALYTICS": {
+        "TITLE": "Analytics",
+        "DESCRIPTION": "Measure how campaigns perform and what they bring in."
+      }
+    }
+  }
+}

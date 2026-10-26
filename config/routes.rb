@@ -177,6 +177,9 @@ Rails.application.routes.draw do
               resources :inbox_limits, only: [:create, :update, :destroy]
             end
           end
+          namespace :glint_reach do
+            resource :shell, only: [:show]
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
             if ChatwootApp.enterprise?
               get 'analytics/metrics', to: 'campaigns/analytics#metrics'

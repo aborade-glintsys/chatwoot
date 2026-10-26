@@ -18,6 +18,7 @@ export const FEATURE_FLAGS = {
   API_AND_WEBHOOKS: 'api_and_webhooks',
   INBOX_MANAGEMENT: 'inbox_management',
   INTEGRATIONS: 'integrations',
+  GLINT_REACH: 'glint_reach',
   LABELS: 'labels',
   MACROS: 'macros',
   HELP_CENTER: 'help_center',
