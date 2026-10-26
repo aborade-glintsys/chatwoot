@@ -29,7 +29,6 @@ import {
   resolveSidebarSort,
   sortSidebarItems,
 } from 'dashboard/helper/sidebarSort';
-import { GLINT_REACH_MODULES } from 'dashboard/routes/dashboard/glintReach/constants';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -755,11 +754,38 @@ const menuItems = computed(() => {
       name: 'GlintReach',
       label: t('SIDEBAR.GLINT_REACH'),
       icon: 'i-lucide-radio-tower',
-      children: GLINT_REACH_MODULES.map(module => ({
-        name: `GlintReach ${module.key}`,
-        label: t(`GLINT_REACH.MODULES.${module.i18nKey}.TITLE`),
-        to: accountScopedRoute(module.routeName),
-      })),
+      children: [
+        {
+          name: 'GlintReach Overview',
+          label: t('GLINT_REACH.MODULES.OVERVIEW.TITLE'),
+          to: accountScopedRoute('glint_reach_overview'),
+        },
+        {
+          name: 'GlintReach Campaigns',
+          label: t('GLINT_REACH.MODULES.CAMPAIGNS.TITLE'),
+          to: accountScopedRoute('glint_reach_campaigns'),
+        },
+        {
+          name: 'GlintReach Content Studio',
+          label: t('GLINT_REACH.MODULES.CONTENT_STUDIO.TITLE'),
+          to: accountScopedRoute('glint_reach_content_studio'),
+        },
+        {
+          name: 'GlintReach Calendar',
+          label: t('GLINT_REACH.MODULES.CALENDAR.TITLE'),
+          to: accountScopedRoute('glint_reach_calendar'),
+        },
+        {
+          name: 'GlintReach Social Accounts',
+          label: t('GLINT_REACH.MODULES.SOCIAL_ACCOUNTS.TITLE'),
+          to: accountScopedRoute('glint_reach_social_accounts'),
+        },
+        {
+          name: 'GlintReach Analytics',
+          label: t('GLINT_REACH.MODULES.ANALYTICS.TITLE'),
+          to: accountScopedRoute('glint_reach_analytics'),
+        },
+      ],
     },
     {
       name: 'Portals',
