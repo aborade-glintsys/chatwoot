@@ -1,13 +1,57 @@
 <script setup>
+import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import Button from 'dashboard/components-next/button/Button.vue';
+import {
+  useGlintReachGenerationsStore,
+  isActiveGeneration,
+} from 'dashboard/stores/glintReach/generations';
+import { CHANNELS } from '../helpers/validation';
+import VariantCard from './VariantCard.vue';
+import GenerationStatus from './GenerationStatus.vue';
 
-// Read-only list of a campaign's content items and their platform variants.
-// Editing content arrives in a later phase; the API already supports it.
-defineProps({
+// A campaign's content items with their platform variants. When AI is enabled,
+// each item can generate drafts for the chosen channels.
+const props = defineProps({
   items: { type: Array, default: () => [] },
+  campaignId: { type: Number, default: null },
+  channels: { type: Array, default: () => [] },
+  canEdit: { type: Boolean, default: false },
+  aiEnabled: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
+const generations = useGlintReachGenerationsStore();
+// Per-item channel selection, defaulting to the brief's channels.
+const selections = reactive({});
+const selectionFor = item => selections[item.id] ?? props.channels;
+const toggleChannel = (item, channel) => {
+  const current = selectionFor(item);
+  selections[item.id] = current.includes(channel)
+    ? current.filter(c => c !== channel)
+    : [...current, channel];
+};
+const latestVariants = item =>
+  generations.latestFor({ kind: 'variants', contentItemId: item.id });
+
+const generateVariants = async item => {
+  const platforms = selectionFor(item);
+  if (!platforms.length) {
+    useAlert(t('GLINT_REACH.AI.PLATFORMS_REQUIRED'));
+    return;
+  }
+  try {
+    await generations.request({
+      kind: 'variants',
+      contentItemId: item.id,
+      platforms,
+    });
+    useAlert(t('GLINT_REACH.AI.QUEUED_ALERT'));
+  } catch (error) {
+    useAlert(error.message || t('GLINT_REACH.AI.REQUEST_FAILED'));
+  }
+};
 </script>
 
 <template>
@@ -45,35 +89,57 @@ const { t } = useI18n();
           </span>
         </div>
       </div>
+      <div
+        v-if="aiEnabled && canEdit && item.status !== 'archived'"
+        class="flex flex-col gap-2"
+        data-testid="variant-generator"
+      >
+        <fieldset class="flex flex-wrap items-center gap-2 text-xs">
+          <legend class="mb-1 text-xs text-n-slate-11">
+            {{ t('GLINT_REACH.AI.PLATFORMS') }}
+          </legend>
+          <label
+            v-for="channel in CHANNELS"
+            :key="channel"
+            class="inline-flex items-center gap-1 text-n-slate-12"
+          >
+            <input
+              type="checkbox"
+              class="!mb-0"
+              :checked="selectionFor(item).includes(channel)"
+              @change="toggleChannel(item, channel)"
+            />
+            {{ t(`GLINT_REACH.PLATFORMS.${channel.toUpperCase()}`) }}
+          </label>
+        </fieldset>
+        <Button
+          size="xs"
+          variant="faded"
+          icon="i-lucide-sparkles"
+          class="w-fit"
+          :label="t('GLINT_REACH.AI.GENERATE_VARIANTS')"
+          :disabled="
+            generations.isRequesting || isActiveGeneration(latestVariants(item))
+          "
+          @click="generateVariants(item)"
+        />
+        <GenerationStatus
+          :generation="latestVariants(item)"
+          @retry="generateVariants(item)"
+        />
+      </div>
       <p v-if="!item.variants.length" class="mb-0 text-xs text-n-slate-10">
         {{ t('GLINT_REACH.CONTENT.NO_VARIANTS') }}
       </p>
-      <ul v-else class="grid gap-2 sm:grid-cols-2">
-        <li
+      <ul v-else class="grid gap-2">
+        <VariantCard
           v-for="variant in item.variants"
           :key="variant.id"
-          class="flex flex-col gap-1.5 p-3 rounded-lg bg-n-alpha-1"
-        >
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-medium text-n-slate-12">
-              {{ t(`GLINT_REACH.PLATFORMS.${variant.platform.toUpperCase()}`) }}
-            </span>
-            <span class="text-n-slate-11">
-              {{ t(`GLINT_REACH.STATUSES.${variant.status.toUpperCase()}`) }}
-            </span>
-          </div>
-          <p
-            class="mb-0 text-sm whitespace-pre-line break-words line-clamp-4 text-n-slate-12"
-          >
-            {{ variant.body || t('GLINT_REACH.FORM.NOT_SET') }}
-          </p>
-          <p
-            v-if="variant.hashtags.length"
-            class="mb-0 text-xs break-words text-n-slate-11"
-          >
-            {{ variant.hashtags.map(tag => `#${tag}`).join(' ') }}
-          </p>
-        </li>
+          :variant="variant"
+          :campaign-id="campaignId"
+          :can-edit="canEdit"
+          :ai-enabled="aiEnabled"
+        />
       </ul>
     </li>
   </ul>

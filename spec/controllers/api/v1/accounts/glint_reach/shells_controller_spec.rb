@@ -39,6 +39,7 @@ RSpec.describe 'GlintReach Shell API', type: :request do
         body = response.parsed_body
         expect(body['product_name']).to eq('GlintReach')
         expect(body['tagline']).to eq('Create once. Reach everywhere.')
+        expect(body['ai_configured']).to be(false)
         expect(body['modules'].pluck('key')).to eq(%w[overview brand_profile campaigns content_studio calendar social_accounts analytics])
         available = body['modules'].select { |mod| mod['available'] }.pluck('key')
         expect(available).to eq(%w[overview brand_profile campaigns content_studio])

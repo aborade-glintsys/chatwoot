@@ -8,6 +8,8 @@ class GlintReach::ContentItem < ApplicationRecord
 
   belongs_to :account
   belongs_to :campaign, class_name: 'GlintReach::Campaign'
+  # Set when the record was drafted by AI (Phase 04); nil for manual content.
+  belongs_to :generation, class_name: 'GlintReach::Generation', optional: true
   has_many :variants, -> { order(:id) }, class_name: 'GlintReach::ContentVariant', dependent: :destroy, inverse_of: :content_item
 
   enum :content_type, { post: 0, image: 1, video: 2, carousel: 3, story: 4 }, validate: true

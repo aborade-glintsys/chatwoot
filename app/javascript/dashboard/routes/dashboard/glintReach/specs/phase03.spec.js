@@ -155,6 +155,8 @@ describe('CampaignBriefForm', () => {
 });
 
 describe('ContentItemsList', () => {
+  beforeEach(() => setActivePinia(createPinia()));
+
   it('shows an empty state without items', () => {
     const wrapper = mount(ContentItemsList, { global });
     expect(wrapper.find('[data-testid="content-items-empty"]').exists()).toBe(

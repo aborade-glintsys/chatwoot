@@ -89,6 +89,52 @@ export const useGlintReachCampaignsStore = defineStore('glintReachCampaigns', {
       }
     },
 
+    replaceVariant(variant) {
+      const item = this.current?.contentItems?.find(
+        contentItem => contentItem.id === variant.contentItemId
+      );
+      if (!item) return;
+      const index = item.variants.findIndex(v => v.id === variant.id);
+      if (index !== -1) item.variants.splice(index, 1, variant);
+    },
+
+    async updateVariant(target, attributes) {
+      try {
+        const { data } = await GlintReachAPI.updateVariant(
+          target,
+          toServer(attributes)
+        );
+        const variant = toClient(data);
+        this.replaceVariant(variant);
+        return variant;
+      } catch (error) {
+        return rethrowApiError(error);
+      }
+    },
+
+    async transitionVariant(target, status) {
+      try {
+        const { data } = await GlintReachAPI.transitionVariant(target, status);
+        const variant = toClient(data);
+        this.replaceVariant(variant);
+        return variant;
+      } catch (error) {
+        return rethrowApiError(error);
+      }
+    },
+
+    // Reloads the open campaign without blanking it (used after AI writes content).
+    async refreshCurrent() {
+      if (!this.current) return null;
+      try {
+        const { data } = await GlintReachAPI.getCampaign(this.current.id);
+        this.current = toClient(data);
+      } catch {
+        // Keep showing the last loaded data.
+      }
+      return this.current;
+    },
+
     reset() {
       this.$reset();
     },

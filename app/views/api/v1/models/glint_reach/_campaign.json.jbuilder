@@ -9,6 +9,7 @@ json.key_message campaign.key_message
 json.desired_action campaign.desired_action
 json.channels campaign.channels
 json.status campaign.status
+json.strategy campaign.strategy
 json.starts_at campaign.starts_at&.to_i
 json.ends_at campaign.ends_at&.to_i
 json.created_by do

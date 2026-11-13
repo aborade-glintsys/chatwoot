@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, inject, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -7,6 +7,8 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaigns';
 import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
+import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
+import AiGenerationPanel from '../components/AiGenerationPanel.vue';
 import CampaignBriefForm from '../components/CampaignBriefForm.vue';
 import ContentItemsList from '../components/ContentItemsList.vue';
 import GlintReachEmptyState from '../components/GlintReachEmptyState.vue';
@@ -23,6 +25,9 @@ const { t } = useI18n();
 const router = useRouter();
 const campaignsStore = useGlintReachCampaignsStore();
 const brandStore = useGlintReachBrandProfileStore();
+const generationsStore = useGlintReachGenerationsStore();
+const shell = inject('glintReachShell', ref(null));
+const aiConfigured = computed(() => Boolean(shell.value?.ai_configured));
 
 const loadError = ref('');
 const serverMessage = ref('');
@@ -36,6 +41,7 @@ const campaign = computed(() =>
 const isLocked = computed(() =>
   LOCKED_STATUSES.includes(campaign.value?.status)
 );
+const aiEnabled = computed(() => aiConfigured.value && !isLocked.value);
 const mode = computed(() => {
   if (props.isNew) return 'new';
   if (props.campaignId) return 'campaign';
@@ -52,10 +58,16 @@ const load = async () => {
   resetServerErrors();
   // The brand profile hint is best-effort; it never blocks the studio.
   if (!brandStore.hasLoaded) brandStore.fetch().catch(() => {});
+  generationsStore.reset();
   try {
     if (mode.value === 'campaign') {
       await campaignsStore.fetchCampaign(props.campaignId);
       formKey.value += 1;
+      // Generated content is written server-side; reload the campaign when a
+      // generation completes so the new strategy/items/variants appear.
+      generationsStore.load(campaignsStore.current.id, () =>
+        campaignsStore.refreshCurrent()
+      );
     } else if (mode.value === 'picker') {
       await campaignsStore.fetchCampaigns({ page: 1, status: '', search: '' });
     }
@@ -92,6 +104,7 @@ const openCampaign = id =>
   });
 
 watch(() => [props.campaignId, props.isNew], load, { immediate: true });
+onBeforeUnmount(() => generationsStore.reset());
 </script>
 
 <template>
@@ -243,11 +256,42 @@ watch(() => [props.campaignId, props.isNew], load, { immediate: true });
           </router-link>
         </div>
 
+        <div
+          v-if="campaign && !aiConfigured"
+          class="flex flex-col gap-1 p-4 border rounded-xl border-n-amber-6 bg-n-amber-3"
+          data-testid="ai-not-configured"
+        >
+          <p class="mb-0 text-sm font-medium text-n-amber-12">
+            {{ t('GLINT_REACH.AI.NOT_CONFIGURED_TITLE') }}
+          </p>
+          <p class="mb-0 text-sm text-n-amber-11">
+            {{ t('GLINT_REACH.AI.NOT_CONFIGURED_DESCRIPTION') }}
+          </p>
+        </div>
+        <p
+          v-else-if="campaign && isLocked"
+          class="px-4 py-3 mb-0 text-sm rounded-lg bg-n-alpha-2 text-n-slate-11"
+        >
+          {{ t('GLINT_REACH.AI.LOCKED') }}
+        </p>
+        <template v-if="campaign && aiEnabled">
+          <p class="mb-0 text-xs text-n-slate-10">
+            {{ t('GLINT_REACH.AI.SAVE_BRIEF_FIRST') }}
+          </p>
+          <AiGenerationPanel :campaign="campaign" :enabled="aiEnabled" />
+        </template>
+
         <section v-if="campaign" class="flex flex-col gap-3">
           <h2 class="mb-0 text-base font-medium text-n-slate-12">
             {{ t('GLINT_REACH.CONTENT.TITLE') }}
           </h2>
-          <ContentItemsList :items="campaign.contentItems || []" />
+          <ContentItemsList
+            :items="campaign.contentItems || []"
+            :campaign-id="campaign.id"
+            :channels="campaign.channels || []"
+            :can-edit="!isLocked"
+            :ai-enabled="aiEnabled"
+          />
         </section>
       </aside>
     </div>

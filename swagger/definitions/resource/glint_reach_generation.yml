@@ -1,0 +1,45 @@
+type: object
+description: An AI generation request. Prompts are never stored or returned.
+properties:
+  id:
+    type: integer
+  campaign_id:
+    type: integer
+  content_item_id:
+    type: [integer, 'null']
+  content_variant_id:
+    type: [integer, 'null']
+  kind:
+    type: string
+    enum: [strategy, content_plan, content_item, variants, rewrite, suggestions]
+  status:
+    type: string
+    enum: [queued, generating, completed, failed]
+  options:
+    type: object
+    description: Request options (platforms, count, instruction)
+  result:
+    type: object
+    description: Summary of what was written (ids, skipped platforms, previous body, suggestions)
+  error_code:
+    type: [string, 'null']
+  error_message:
+    type: [string, 'null']
+  provider:
+    type: [string, 'null']
+  model:
+    type: [string, 'null']
+  input_tokens:
+    type: [integer, 'null']
+  output_tokens:
+    type: [integer, 'null']
+  requested_by_id:
+    type: integer
+  started_at:
+    type: [integer, 'null']
+  completed_at:
+    type: [integer, 'null']
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

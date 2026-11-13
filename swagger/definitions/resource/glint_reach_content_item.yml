@@ -16,6 +16,9 @@ properties:
     type: array
     items:
       $ref: '#/components/schemas/glint_reach_content_variant'
+  generation_id:
+    type: [integer, 'null']
+    description: AI generation that created this item
   created_at:
     type: integer
   updated_at:

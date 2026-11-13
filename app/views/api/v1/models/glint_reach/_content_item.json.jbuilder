@@ -3,6 +3,7 @@ json.campaign_id content_item.campaign_id
 json.title content_item.title
 json.content_type content_item.content_type
 json.status content_item.status
+json.generation_id content_item.generation_id
 json.variants content_item.variants do |variant|
   json.partial! 'api/v1/models/glint_reach/content_variant', formats: [:json], variant: variant
 end

@@ -950,3 +950,15 @@
     - $ref: '#/components/parameters/account_id'
   post:
     $ref: ./application/glint_reach/variants_transition.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/generations:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/generations_index.yml
+  post:
+    $ref: ./application/glint_reach/generations_create.yml
+/api/v1/accounts/{account_id}/glint_reach/generations/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/generations_show.yml

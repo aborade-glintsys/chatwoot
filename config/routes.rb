@@ -180,8 +180,10 @@ Rails.application.routes.draw do
           namespace :glint_reach do
             resource :shell, only: [:show]
             resource :brand_profile, only: [:show, :update]
+            resources :generations, only: [:show]
             resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
               post :transition, on: :member
+              resources :generations, only: [:index, :create]
               resources :content_items, only: [:create, :update, :destroy] do
                 post :transition, on: :member
                 resources :variants, controller: 'content_variants', only: [:create, :update, :destroy] do

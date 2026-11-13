@@ -38,6 +38,37 @@ class GlintReachAPI extends ApiClient {
   updateCampaign(id, campaign) {
     return axios.patch(`${this.url}/campaigns/${id}`, { campaign });
   }
+
+  getGenerations(campaignId) {
+    return axios.get(`${this.url}/campaigns/${campaignId}/generations`);
+  }
+
+  getGeneration(id) {
+    return axios.get(`${this.url}/generations/${id}`);
+  }
+
+  createGeneration(campaignId, generation) {
+    return axios.post(`${this.url}/campaigns/${campaignId}/generations`, {
+      generation,
+    });
+  }
+
+  variantUrl(campaignId, contentItemId, variantId) {
+    return `${this.url}/campaigns/${campaignId}/content_items/${contentItemId}/variants/${variantId}`;
+  }
+
+  updateVariant({ campaignId, contentItemId, variantId }, variant) {
+    return axios.patch(this.variantUrl(campaignId, contentItemId, variantId), {
+      variant,
+    });
+  }
+
+  transitionVariant({ campaignId, contentItemId, variantId }, status) {
+    return axios.post(
+      `${this.variantUrl(campaignId, contentItemId, variantId)}/transition`,
+      { status }
+    );
+  }
 }
 
 export default new GlintReachAPI();

@@ -1,4 +1,4 @@
-# GlintReach API (Phases 02–03)
+# GlintReach API (Phases 02–04)
 
 Base path: `/api/v1/accounts/:account_id/glint_reach`
 
@@ -66,6 +66,21 @@ campaign is `completed` or `archived`.
 `platform`: `facebook | instagram | linkedin | x | tiktok` (labels only; no integration).
 One variant per platform per content item. Hashtags: max 30, letters/digits/underscore,
 stored without `#`, de-duplicated.
+
+## AI generations (Phase 04)
+| Method | Path | Body | Notes |
+| --- | --- | --- | --- |
+| GET | `/campaigns/:campaign_id/generations` | – | `{ payload: [generation] }`, 20 most recent |
+| POST | `/campaigns/:campaign_id/generations` | `{ generation: { kind, content_item_id, content_variant_id, count, instruction, platforms: [] } }` | `202` with the queued generation. `422 { error }` when AI is not configured, the campaign is locked, the target is missing/approved/from another campaign, the instruction is missing or > 500 chars, or the same target is already running |
+| GET | `/generations/:id` | – | Poll status; scoped to `Current.account` |
+
+`kind`: `strategy | content_plan | content_item | variants | rewrite | suggestions`.
+`variants` needs `content_item_id`; `rewrite`/`suggestions` need `content_variant_id`.
+Generation fields: `id, campaign_id, content_item_id, content_variant_id, kind, status
+(queued|generating|completed|failed), options, result, error_code, error_message, provider, model,
+input_tokens, output_tokens, requested_by_id, started_at, completed_at, created_at, updated_at`.
+Prompts are never returned or stored. Campaigns now include `strategy`; content items and variants
+include `generation_id`. The shell includes `ai_configured`. Details: [ai-layer.md](ai-layer.md).
 
 ## Lifecycle
 | Record | Transitions |

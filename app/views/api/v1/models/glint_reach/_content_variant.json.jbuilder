@@ -5,5 +5,6 @@ json.body variant.body
 json.call_to_action variant.call_to_action
 json.hashtags variant.hashtags
 json.status variant.status
+json.generation_id variant.generation_id
 json.created_at variant.created_at.to_i
 json.updated_at variant.updated_at.to_i

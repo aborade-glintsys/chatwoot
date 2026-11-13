@@ -334,6 +334,8 @@ glint_reach_content_item:
   $ref: ./resource/glint_reach_content_item.yml
 glint_reach_content_variant:
   $ref: ./resource/glint_reach_content_variant.yml
+glint_reach_generation:
+  $ref: ./resource/glint_reach_generation.yml
 glint_reach_brand_profile_payload:
   $ref: ./request/glint_reach/brand_profile_payload.yml
 glint_reach_campaign_payload:
@@ -342,3 +344,5 @@ glint_reach_content_item_payload:
   $ref: ./request/glint_reach/content_item_payload.yml
 glint_reach_content_variant_payload:
   $ref: ./request/glint_reach/content_variant_payload.yml
+glint_reach_generation_payload:
+  $ref: ./request/glint_reach/generation_payload.yml

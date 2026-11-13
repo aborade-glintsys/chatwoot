@@ -9,6 +9,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
 import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaigns';
+import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
 
 // The dashboard router only enforces `meta.permissions`, so the feature flag is
 // gated here and re-verified by the server before any child page renders.
@@ -30,6 +31,7 @@ const fetchShell = async () => {
   // Cached GlintReach data belongs to the previous account; drop it.
   useGlintReachBrandProfileStore().reset();
   useGlintReachCampaignsStore().reset();
+  useGlintReachGenerationsStore().reset();
   shell.value = null;
   isDenied.value = false;
   if (!isEnabled.value) return;

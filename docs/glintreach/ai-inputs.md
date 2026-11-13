@@ -1,4 +1,4 @@
-# GlintReach: Supplying brand and brief context to AI generation (Phase 03)
+# GlintReach: Supplying brand and brief context to AI generation (Phase 03, implemented in Phase 04)
 
 > Status: **design for later phases.** Phase 03 stores the data only. No AI calls, prompts or
 > external APIs exist yet.
@@ -14,9 +14,12 @@ Limits are enforced by model validations (name 255, long text 5,000 for the prof
 and key message, 10,000 for campaign audience and notes, 10 languages, 20 CTAs of 100 characters each).
 These limits bound the prompt size.
 
-## 2. How the context will be assembled
+> **Status:** implemented in Phase 04 by `GlintReach::Generators::ContextBuilder`. See
+> [ai-layer.md](ai-layer.md) for the full AI layer.
 
-1. **Server-side only.** A future service, for example `GlintReach::Generation::ContextBuilder`, loads
+## 2. How the context is assembled
+
+1. **Server-side only.** `GlintReach::Generators::ContextBuilder` loads
    `Current.account.glint_reach_brand_profile` and the campaign through `Current.account` (or, inside a
    job, through the `account_id` and `campaign_id` primitives). The browser never sends brand or
    brief text as part of a generation request. It sends only the campaign ID.

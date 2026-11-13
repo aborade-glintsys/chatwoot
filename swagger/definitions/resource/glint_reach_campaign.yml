@@ -27,6 +27,9 @@ properties:
   status:
     type: string
     enum: [draft, active, paused, completed, archived]
+  strategy:
+    type: [object, 'null']
+    description: AI-generated strategy (positioning, key_messages, content_pillars, channel_approach)
   starts_at:
     type: [integer, 'null']
     description: Unix timestamp

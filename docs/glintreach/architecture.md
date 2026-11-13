@@ -156,6 +156,18 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
   content). Pinia stores live in `dashboard/stores/glintReach/` and are reset when the account changes.
 - How this data reaches future AI services: [ai-inputs.md](ai-inputs.md).
 
+### 6.3 Implemented in Phase 04
+- `GlintReach::Generation` (`glint_reach_generations`): one row per AI request with kind, status
+  (`queued → generating → completed | failed`), request options, result summary, provider/model,
+  token usage and error. `account_id` is derived from the campaign; deleted with the campaign.
+- `campaigns.strategy` (jsonb); `content_items.generation_id` and `content_variants.generation_id`
+  record provenance.
+- AI layer under `app/services/glint_reach/ai/` (provider-neutral request/response/errors, resolver,
+  `ruby_llm` adapter) and `app/services/glint_reach/generators/` (context, schemas, one generator per
+  kind, enqueuer). Async via `GlintReach::GenerationJob` (`medium` queue). See [ai-layer.md](ai-layer.md).
+- UI: AI panel, per-item variant generation and a variant editor (edit, ready/draft, regenerate,
+  rewrite, suggestions) in Content Studio; `generations` Pinia store polls every 2 s.
+
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.
 - Jobs receive primitive IDs and re-load through the account.
