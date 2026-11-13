@@ -73,7 +73,7 @@ class GlintReach::Generators::Enqueuer
 
   def check_rewrite!(generation, instruction)
     reject!(:instruction_required) if instruction.blank?
-    reject!(:variant_approved) if generation.content_variant.ready?
+    reject!(:variant_approved) unless generation.content_variant.editable?
   end
 
   def expire_stale!(generation)

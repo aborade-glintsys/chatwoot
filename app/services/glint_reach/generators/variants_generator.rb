@@ -1,5 +1,5 @@
-# Drafts one variant per requested platform. Existing draft variants are overwritten; variants
-# marked ready (approved) are never touched and are reported as skipped.
+# Drafts one variant per requested platform. Existing editable (draft / changes requested) variants are overwritten; variants
+# that are no longer editable (in review, approved, scheduled or later) are skipped and reported.
 class GlintReach::Generators::VariantsGenerator < GlintReach::Generators::Base
   private
 
@@ -34,13 +34,13 @@ class GlintReach::Generators::VariantsGenerator < GlintReach::Generators::Base
     raise TargetLocked, 'content_item_missing' if content_item.nil? || content_item.archived?
   end
 
-  # Returns nil when the existing variant is ready (approved) and must not be overwritten.
+  # Returns nil when the existing variant is past editing (in review, approved, scheduled...).
   def save_draft(platform, draft)
     variant = content_item.variants.lock.find_or_initialize_by(platform: platform)
-    return if variant.ready?
+    return if variant.persisted? && !variant.editable?
 
     variant.update!(body: draft['body'], call_to_action: draft['call_to_action'].presence,
-                    hashtags: draft['hashtags'], status: :draft, generation: generation)
+                    hashtags: draft['hashtags'], generation: generation)
     variant
   end
 end

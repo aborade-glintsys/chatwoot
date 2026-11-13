@@ -14,12 +14,23 @@ class Api::V1::Accounts::GlintReach::ContentVariantsController < Api::V1::Accoun
   end
 
   def destroy
+    raise GlintReach::Workflow::Conflict, I18n.t('errors.glint_reach.workflow.dispatch_started') if @variant.scheduled? || @variant.publishing?
+
     @variant.destroy!
     head :ok
   end
 
+  # Phase 02 compatibility endpoint. Only moves that need no extra input are supported, and they go
+  # through GlintReach::Workflow (roles, locks, approval records). Others return 409.
   def transition
-    @variant.transition_to!(params.require(:status))
+    workflow = GlintReach::Workflow.new(variant: @variant, user: Current.user, lock_version: params[:lock_version])
+    case [@variant.status, params.require(:status)]
+    in [('draft' | 'changes_requested'), 'in_review'] then workflow.submit!
+    in ['in_review', 'draft'] then workflow.withdraw!
+    in [('approved' | 'failed'), 'draft'] then workflow.reopen!
+    in [from, to]
+      raise GlintReach::Workflow::Conflict, I18n.t('errors.glint_reach.workflow.invalid_transition', from: from, to: to)
+    end
     render :show
   end
 

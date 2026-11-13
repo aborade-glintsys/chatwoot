@@ -174,6 +174,14 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
   URLs only. Reusable `AssetPicker` dialog and an Assets panel in Content Studio. No image
   generation. See [assets.md](assets.md).
 
+### 6.5 Implemented in Phase 06
+- Variant workflow (`draft → in_review → changes_requested/approved → scheduled → publishing →
+  published/failed`) in `GlintReach::Workflow`, with append-only `GlintReach::Approval` (content
+  digest) and `GlintReach::Schedule` (UTC time, IANA zone, one live schedule per variant).
+- Minute-level sidekiq-cron dispatcher with `SKIP LOCKED` claims and idempotent per-schedule jobs.
+  No publishers yet, so due posts fail with `publisher_unavailable`. Calendar module (calendar, list,
+  approvals). See [workflow.md](workflow.md).
+
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.
 - Jobs receive primitive IDs and re-load through the account.

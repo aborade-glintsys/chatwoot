@@ -2,6 +2,18 @@ class Api::V1::Accounts::GlintReach::BaseController < Api::V1::Accounts::BaseCon
   before_action -> { authorize :glint_reach, :show? }
   before_action :ensure_glint_reach_enabled
 
+  rescue_from GlintReach::Workflow::Forbidden do |error|
+    render json: { error: error.message }, status: :forbidden
+  end
+
+  rescue_from GlintReach::Workflow::Conflict do |error|
+    render json: { error: error.message }, status: :conflict
+  end
+
+  rescue_from ActiveRecord::StaleObjectError do
+    render json: { error: I18n.t('errors.glint_reach.workflow.stale') }, status: :conflict
+  end
+
   private
 
   def ensure_glint_reach_enabled

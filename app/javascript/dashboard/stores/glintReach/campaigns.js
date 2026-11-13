@@ -123,6 +123,22 @@ export const useGlintReachCampaignsStore = defineStore('glintReachCampaigns', {
       }
     },
 
+    // Runs a server-side workflow action and replaces the variant with the result.
+    async runWorkflow(target, action, params = {}) {
+      try {
+        const { data } = await GlintReachAPI.variantWorkflow(
+          target,
+          action,
+          params
+        );
+        const variant = toClient(data);
+        this.replaceVariant(variant);
+        return variant;
+      } catch (error) {
+        return rethrowApiError(error);
+      }
+    },
+
     async setVariantAssets(target, assetIds) {
       try {
         const { data } = await GlintReachAPI.setVariantAssets(target, assetIds);

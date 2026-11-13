@@ -8,6 +8,7 @@ import GlintReachModulePage from './pages/GlintReachModulePage.vue';
 import GlintReachBrandProfilePage from './pages/GlintReachBrandProfilePage.vue';
 import GlintReachCampaignsPage from './pages/GlintReachCampaignsPage.vue';
 import GlintReachContentStudioPage from './pages/GlintReachContentStudioPage.vue';
+import GlintReachCalendarPage from './pages/GlintReachCalendarPage.vue';
 
 export const meta = {
   featureFlag: FEATURE_FLAGS.GLINT_REACH,
@@ -20,6 +21,7 @@ const MODULE_PAGES = {
   brand_profile: GlintReachBrandProfilePage,
   campaigns: GlintReachCampaignsPage,
   content_studio: GlintReachContentStudioPage,
+  calendar: GlintReachCalendarPage,
 };
 
 const moduleRoutes = GLINT_REACH_MODULES.map(module => ({

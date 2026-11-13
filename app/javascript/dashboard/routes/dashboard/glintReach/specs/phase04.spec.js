@@ -223,8 +223,10 @@ describe('VariantCard', () => {
     expect(GlintReachAPI.createGeneration).not.toHaveBeenCalled();
   });
 
-  it('protects ready variants from regenerate and rewrite', () => {
-    const wrapper = mountCard({ variant: { ...variant, status: 'ready' } });
+  it('protects non-editable variants from regenerate and rewrite', () => {
+    const wrapper = mountCard({
+      variant: { ...variant, status: 'approved', editable: false },
+    });
     expect(
       wrapper.find('[data-testid="variant-regenerate"]').attributes('disabled')
     ).toBeDefined();

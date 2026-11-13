@@ -31,6 +31,8 @@ class Api::V1::Accounts::GlintReach::VariantAssetsController < Api::V1::Accounts
   def replace_links(ids)
     ActiveRecord::Base.transaction do
       @variant.lock!
+      raise GlintReach::Workflow::Conflict, I18n.t('errors.glint_reach.workflow.content_locked') unless @variant.editable?
+
       @variant.variant_assets.delete_all
       ids.each_with_index { |id, position| @variant.variant_assets.create!(asset_id: id, position: position) }
     end

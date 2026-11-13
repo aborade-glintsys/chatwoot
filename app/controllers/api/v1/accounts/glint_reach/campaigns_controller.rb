@@ -1,5 +1,6 @@
 class Api::V1::Accounts::GlintReach::CampaignsController < Api::V1::Accounts::GlintReach::BaseController
   RESULTS_PER_PAGE = 25
+  VARIANT_PRELOADS = [:latest_schedule, { latest_approval: :reviewer, assets: { file_attachment: :blob } }].freeze
 
   before_action :validate_status_filter, only: [:index]
   before_action :fetch_campaign, except: [:index, :create]
@@ -38,7 +39,7 @@ class Api::V1::Accounts::GlintReach::CampaignsController < Api::V1::Accounts::Gl
   private
 
   def fetch_campaign
-    @campaign = campaigns.includes(:created_by, content_items: { variants: { assets: { file_attachment: :blob } } }).find(params[:id])
+    @campaign = campaigns.includes(:created_by, content_items: { variants: VARIANT_PRELOADS }).find(params[:id])
   end
 
   def filtered_campaigns

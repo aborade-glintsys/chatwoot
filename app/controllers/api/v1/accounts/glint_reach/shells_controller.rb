@@ -1,6 +1,6 @@
 class Api::V1::Accounts::GlintReach::ShellsController < Api::V1::Accounts::GlintReach::BaseController
   MODULES = %w[overview brand_profile campaigns content_studio calendar social_accounts analytics].freeze
-  AVAILABLE_MODULES = %w[overview brand_profile campaigns content_studio].freeze
+  AVAILABLE_MODULES = %w[overview brand_profile campaigns content_studio calendar].freeze
 
   def show
     @modules = MODULES

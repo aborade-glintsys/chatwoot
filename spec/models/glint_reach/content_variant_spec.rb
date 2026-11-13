@@ -30,10 +30,29 @@ RSpec.describe GlintReach::ContentVariant do
     expect(build(:glint_reach_content_variant, content_item: content_item, hashtags: (1..31).map { |i| "tag#{i}" })).not_to be_valid
   end
 
-  it 'transitions between draft and ready only' do
+  it 'exposes the workflow transition table' do
     variant = create(:glint_reach_content_variant, content_item: content_item)
 
-    variant.transition_to!(:ready)
-    expect { variant.transition_to!(:ready) }.to raise_error(ActiveRecord::RecordInvalid)
+    expect(variant.can_transition_to?(:in_review)).to be(true)
+    expect(variant.can_transition_to?(:approved)).to be(false)
+    expect(variant.can_transition_to?(:scheduled)).to be(false)
+  end
+
+  it 'only allows content changes while draft or changes requested' do
+    variant = create(:glint_reach_content_variant, content_item: content_item)
+    variant.update_columns(status: described_class.statuses[:approved]) # rubocop:disable Rails/SkipsModelValidations
+    variant.reload
+
+    expect(variant.update(body: 'Changed')).to be(false)
+    expect(variant.errors[:base].join).to include('Move it back to draft')
+    variant.reload
+    expect(variant.update(status: :scheduled)).to be(true)
+  end
+
+  it 'changes the content digest when reviewed content changes' do
+    variant = create(:glint_reach_content_variant, content_item: content_item)
+    digest = variant.content_digest
+    variant.update!(hashtags: ['new'])
+    expect(variant.content_digest).not_to eq(digest)
   end
 end

@@ -338,6 +338,10 @@ glint_reach_generation:
   $ref: ./resource/glint_reach_generation.yml
 glint_reach_asset:
   $ref: ./resource/glint_reach_asset.yml
+glint_reach_approval:
+  $ref: ./resource/glint_reach_approval.yml
+glint_reach_schedule:
+  $ref: ./resource/glint_reach_schedule.yml
 glint_reach_brand_profile_payload:
   $ref: ./request/glint_reach/brand_profile_payload.yml
 glint_reach_campaign_payload:

@@ -32,7 +32,7 @@ RSpec.describe 'GlintReach Shell API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns the shell with Phase 03 modules available for an administrator' do
+      it 'returns the shell with the implemented modules available for an administrator' do
         get path, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
@@ -42,7 +42,7 @@ RSpec.describe 'GlintReach Shell API', type: :request do
         expect(body['ai_configured']).to be(false)
         expect(body['modules'].pluck('key')).to eq(%w[overview brand_profile campaigns content_studio calendar social_accounts analytics])
         available = body['modules'].select { |mod| mod['available'] }.pluck('key')
-        expect(available).to eq(%w[overview brand_profile campaigns content_studio])
+        expect(available).to eq(%w[overview brand_profile campaigns content_studio calendar])
       end
     end
 

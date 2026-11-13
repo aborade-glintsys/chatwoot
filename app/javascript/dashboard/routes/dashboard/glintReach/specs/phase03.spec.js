@@ -178,7 +178,7 @@ describe('ContentItemsList', () => {
               {
                 id: 2,
                 platform: 'x',
-                status: 'ready',
+                status: 'approved',
                 body: '<b>hi</b>',
                 hashtags: ['launch'],
               },

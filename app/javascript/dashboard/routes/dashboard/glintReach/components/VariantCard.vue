@@ -11,6 +11,7 @@ import {
 import ChipListInput from './ChipListInput.vue';
 import GenerationStatus from './GenerationStatus.vue';
 import AssetPicker from './AssetPicker.vue';
+import WorkflowPanel from './WorkflowPanel.vue';
 
 // One platform variant: manual editing, ready/draft, and AI regenerate,
 // rewrite and suggestions. Ready variants are protected from AI changes.
@@ -34,7 +35,11 @@ const draft = ref({ body: '', callToAction: '', hashtags: [] });
 const showRewrite = ref(false);
 const instruction = ref('');
 
-const isReady = computed(() => props.variant.status === 'ready');
+// Content can change only in draft / changes requested (enforced by the server).
+const isLocked = computed(() => props.variant.editable === false);
+const canEditContent = computed(
+  () => props.canEdit && (props.variant.permissions?.edit ?? !isLocked.value)
+);
 const target = computed(() => ({
   campaignId: props.campaignId,
   contentItemId: props.variant.contentItemId,
@@ -56,9 +61,7 @@ const aiBusy = computed(
     isActiveGeneration(rewriteGen.value) ||
     isActiveGeneration(regenerateGen.value)
 );
-const canUseAi = computed(
-  () => props.aiEnabled && props.canEdit && !isReady.value
-);
+const canUseAi = computed(() => props.aiEnabled && canEditContent.value);
 const instructionTooLong = computed(
   () => instruction.value.length > MAX_INSTRUCTION
 );
@@ -96,14 +99,6 @@ const save = async () => {
     useAlert(error.message || t('GLINT_REACH.AI.VARIANT.SAVE_FAILED'));
   } finally {
     isSaving.value = false;
-  }
-};
-
-const transition = async status => {
-  try {
-    await campaignsStore.transitionVariant(target.value, status);
-  } catch (error) {
-    useAlert(error.message || t('GLINT_REACH.AI.VARIANT.TRANSITION_FAILED'));
   }
 };
 
@@ -267,6 +262,7 @@ const useCta = async cta => {
 
     <div v-if="canEdit && !isEditing" class="flex flex-wrap gap-1">
       <Button
+        v-if="canEditContent"
         size="xs"
         variant="ghost"
         icon="i-lucide-image-plus"
@@ -275,25 +271,13 @@ const useCta = async cta => {
         @click="picker?.open(variant.assetIds || [])"
       />
       <Button
-        v-if="!isReady"
+        v-if="canEditContent"
         size="xs"
         variant="ghost"
         icon="i-lucide-pencil"
         data-testid="variant-edit"
         :label="t('GLINT_REACH.AI.VARIANT.EDIT')"
         @click="startEdit"
-      />
-      <Button
-        size="xs"
-        variant="ghost"
-        :icon="isReady ? 'i-lucide-undo-2' : 'i-lucide-check'"
-        :label="
-          isReady
-            ? t('GLINT_REACH.AI.VARIANT.MARK_DRAFT')
-            : t('GLINT_REACH.AI.VARIANT.MARK_READY')
-        "
-        data-testid="variant-toggle-ready"
-        @click="transition(isReady ? 'draft' : 'ready')"
       />
       <template v-if="aiEnabled">
         <Button
@@ -325,7 +309,7 @@ const useCta = async cta => {
         />
       </template>
     </div>
-    <p v-if="isReady && aiEnabled" class="mb-0 text-xs text-n-slate-10">
+    <p v-if="isLocked && aiEnabled" class="mb-0 text-xs text-n-slate-10">
       {{ t('GLINT_REACH.AI.VARIANT.READY_HINT') }}
     </p>
 
@@ -370,7 +354,7 @@ const useCta = async cta => {
     />
 
     <div
-      v-if="suggestions && canEdit"
+      v-if="suggestions && canEditContent"
       class="flex flex-col gap-1"
       data-testid="variant-suggestions"
     >
@@ -400,6 +384,11 @@ const useCta = async cta => {
         </button>
       </div>
     </div>
+    <WorkflowPanel
+      v-if="campaignId && variant.permissions"
+      :variant="variant"
+      :campaign-id="campaignId"
+    />
     <AssetPicker
       v-if="canEdit && campaignId"
       ref="picker"

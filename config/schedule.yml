@@ -92,3 +92,9 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# executed every minute; claims due GlintReach schedules (state is in Postgres, safe to rerun)
+glint_reach_dispatch_due_schedules_job:
+  cron: '* * * * *'
+  class: 'GlintReach::DispatchDueSchedulesJob'
+  queue: scheduled_jobs

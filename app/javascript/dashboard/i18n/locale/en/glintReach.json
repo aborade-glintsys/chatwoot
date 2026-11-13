@@ -178,7 +178,14 @@
       "PAUSED": "Paused",
       "COMPLETED": "Completed",
       "ARCHIVED": "Archived",
-      "READY": "Ready"
+      "READY": "Ready",
+      "IN_REVIEW": "In review",
+      "CHANGES_REQUESTED": "Changes requested",
+      "APPROVED": "Approved",
+      "SCHEDULED": "Scheduled",
+      "PUBLISHING": "Publishing",
+      "PUBLISHED": "Published",
+      "FAILED": "Failed"
     },
     "CONTENT_TYPES": {
       "POST": "Post",
@@ -236,9 +243,7 @@
         "CTA": "Call to action",
         "HASHTAGS": "Hashtags",
         "HASHTAGS_PLACEHOLDER": "Type a hashtag and press Enter",
-        "MARK_READY": "Mark ready",
-        "MARK_DRAFT": "Back to draft",
-        "READY_HINT": "Ready versions are protected. Move back to draft to regenerate or rewrite.",
+        "READY_HINT": "This version is in review, approved or scheduled, so it can't be edited or regenerated. Reopen or withdraw it to make changes.",
         "REGENERATE": "Regenerate",
         "REWRITE": "Rewrite",
         "REWRITE_PLACEHOLDER": "e.g. Make it shorter and more playful",
@@ -247,8 +252,7 @@
         "SUGGEST": "Suggest hashtags and CTAs",
         "SUGGESTIONS": "Suggestions",
         "APPLY_HASHTAG": "Add #{tag}",
-        "USE_CTA": "Use “{cta}”",
-        "TRANSITION_FAILED": "Could not change the status."
+        "USE_CTA": "Use “{cta}”"
       }
     },
     "ASSETS": {
@@ -280,6 +284,85 @@
         "FAILED": "Something went wrong with the image. Try again."
       },
       "META": "{width}×{height} · {size}"
+    },
+    "WORKFLOW": {
+      "SUBMIT": "Submit for review",
+      "SUBMITTED": "Submitted for review.",
+      "WITHDRAW": "Withdraw",
+      "WITHDRAWN": "Moved back to draft.",
+      "REVIEW": "Review",
+      "APPROVE": "Approve",
+      "REQUEST_CHANGES": "Request changes",
+      "APPROVED": "Approved.",
+      "CHANGES_SENT": "Changes requested.",
+      "FEEDBACK": "Feedback (required when requesting changes)",
+      "FEEDBACK_REQUIRED": "Add feedback so the author knows what to change.",
+      "FEEDBACK_FROM": "Feedback from {name}:",
+      "REOPEN": "Reopen as draft",
+      "REOPENED": "Reopened as draft. It needs a new approval.",
+      "RESCHEDULE": "Reschedule",
+      "SCHEDULED": "Scheduled.",
+      "CANCEL_SCHEDULE": "Cancel schedule",
+      "CANCELLED": "Schedule cancelled.",
+      "SCHEDULED_FOR": "Scheduled for {time}",
+      "WAITING_FOR_REVIEW": "Waiting for review.",
+      "SELF_REVIEW_HINT": "You submitted this version, so another administrator needs to review it.",
+      "FAILED": "The action could not be completed. Reload and try again.",
+      "SCHEDULE": {
+        "TITLE": "Schedule post",
+        "DESCRIPTION": "Choose when this approved version should be published, in an explicit time zone.",
+        "CONFIRM": "Schedule",
+        "DATE": "Date",
+        "TIME": "Time (24-hour)",
+        "TIMEZONE": "Time zone",
+        "NOTE": "Publishing to social networks is not available yet. At the scheduled time this post will be marked as failed with that reason; nothing is posted.",
+        "INVALID": "Enter a date and a time."
+      }
+    },
+    "CALENDAR": {
+      "DESCRIPTION": "Review, approve and schedule campaign content.",
+      "TABS": {
+        "CALENDAR": "Calendar",
+        "LIST": "List",
+        "APPROVALS": "Approvals"
+      },
+      "VIEWS": {
+        "MONTH": "Month",
+        "WEEK": "Week",
+        "DAY": "Day"
+      },
+      "WEEKDAYS": {
+        "MON": "Mon",
+        "TUE": "Tue",
+        "WED": "Wed",
+        "THU": "Thu",
+        "FRI": "Fri",
+        "SAT": "Sat",
+        "SUN": "Sun"
+      },
+      "PREVIOUS": "Previous",
+      "NEXT": "Next",
+      "TODAY": "Today",
+      "EMPTY": "Nothing scheduled in this period.",
+      "ITEM_LABEL": "{time} · {platform}",
+      "RANGE": "{from} to {to}",
+      "COLUMNS": {
+        "TIME": "Time",
+        "CONTENT": "Content",
+        "CHANNEL": "Channel",
+        "STATUS": "Status"
+      },
+      "SCHEDULE_STATUS": {
+        "PENDING": "Scheduled",
+        "DISPATCHING": "Publishing",
+        "DISPATCHED": "Published",
+        "FAILED": "Failed",
+        "CANCELLED": "Cancelled"
+      }
+    },
+    "APPROVALS": {
+      "EMPTY": "No content is waiting for review.",
+      "META": "{campaign} · {platform} · submitted by {name}"
     }
   }
 }

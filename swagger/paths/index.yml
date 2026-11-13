@@ -983,3 +983,48 @@
     - $ref: '#/components/parameters/account_id'
   put:
     $ref: ./application/glint_reach/variant_assets_update.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/submit:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_submit.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/withdraw:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_withdraw.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/review:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_review.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/reopen:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_reopen.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/schedule:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_schedule.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/cancel_schedule:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/variants_cancel_schedule.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{id}/approvals:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/variants_approvals.yml
+/api/v1/accounts/{account_id}/glint_reach/calendar:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/calendar_index.yml
+/api/v1/accounts/{account_id}/glint_reach/approvals:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/approvals_index.yml

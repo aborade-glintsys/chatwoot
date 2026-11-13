@@ -1,4 +1,4 @@
-# GlintReach API (Phases 02–05)
+# GlintReach API (Phases 02–06)
 
 Base path: `/api/v1/accounts/:account_id/glint_reach`
 
@@ -97,9 +97,37 @@ thumbnail_url, url_expires_in, uploaded_by_id, created_at, updated_at`. Variants
 `asset_ids` and `assets` (`id, alt_text, thumbnail_url`). Writes on locked campaigns return 422.
 Details: [assets.md](assets.md).
 
+## Review and scheduling (Phase 06)
+Base: `/campaigns/:campaign_id/content_items/:content_item_id/variants/:id`. All POSTs accept `lock_version`
+and return the variant. Errors: `403 { error }` for self-review; `409 { error }` for invalid transitions,
+stale `lock_version`, a locked campaign, stale or missing approval, invalid schedule time, or dispatch already started;
+`422` for validation errors (for example missing feedback).
+
+| Method | Path | Body |
+| --- | --- | --- |
+| POST | `/submit` | – |
+| POST | `/withdraw` | – |
+| POST | `/review` | `{ decision: approved\|changes_requested, feedback }` |
+| POST | `/reopen` | – |
+| POST | `/schedule` | `{ date: YYYY-MM-DD, time: HH:MM, timezone: IANA }` (also reschedules) |
+| POST | `/cancel_schedule` | – |
+| GET | `/approvals` | Approval history, newest first |
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| GET | `/glint_reach/calendar?from&to&timezone&status[]&campaign_id` | Schedules (not cancelled) between the start of `from` and the end of `to` in `timezone`; range ≤ 62 days |
+| GET | `/glint_reach/approvals?page` | Variants `in_review`, oldest submission first, 25 per page |
+
+Variant JSON adds `lock_version`, `editable`, `submitted_by_id`, `submitted_at`, `permissions`
+(`edit, submit, withdraw, review, reopen, schedule, cancel_schedule`), `latest_approval` and `schedule`
+(`status, scheduled_at, scheduled_at_iso, timezone, error_code, error_message, attempts`). The shell adds
+`timezone` (the account reporting zone as IANA, or null). The Phase 02 `/transition` endpoint now supports
+only `draft→in_review`, `changes_requested→in_review`, `in_review→draft` and `approved|failed→draft`
+(through the workflow); other moves return 409. Details: [workflow.md](workflow.md).
+
 ## Lifecycle
 | Record | Transitions |
 | --- | --- |
 | Campaign | draft→active/archived · active→paused/completed · paused→active/completed/archived · completed→archived |
 | Content item | draft→ready/archived · ready→draft/archived |
-| Variant | draft→ready · ready→draft |
+| Variant | See [workflow.md](workflow.md) (Phase 06) |

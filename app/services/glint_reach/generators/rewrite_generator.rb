@@ -1,4 +1,5 @@
-# Rewrites a single draft variant following the user's instruction. Approved (ready) variants are refused.
+# Rewrites a single editable (draft / changes requested) variant following the user's instruction.
+# Variants in review, approved, scheduled or later are refused.
 class GlintReach::Generators::RewriteGenerator < GlintReach::Generators::Base
   private
 
@@ -16,7 +17,7 @@ class GlintReach::Generators::RewriteGenerator < GlintReach::Generators::Base
 
   def persist!(payload)
     variant.lock!
-    raise TargetLocked, 'variant_approved' if variant.ready?
+    raise TargetLocked, 'variant_approved' unless variant.editable?
 
     previous = variant.body
     variant.update!(body: payload['body'], call_to_action: payload['call_to_action'].presence,

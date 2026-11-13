@@ -1,0 +1,72 @@
+tags:
+  - GlintReach
+operationId: glint-reach-calendar
+summary: 'Calendar feed'
+description: 'Schedules (excluding cancelled) between the start of from and the end of to, interpreted in timezone. Range at most 62 days.'
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: query
+    name: from
+    required: true
+    schema:
+      type: string
+      format: date
+  - in: query
+    name: to
+    required: true
+    schema:
+      type: string
+      format: date
+  - in: query
+    name: timezone
+    schema:
+      type: string
+  - in: query
+    name: status[]
+    schema:
+      type: array
+      items:
+        type: string
+        enum: [pending, dispatching, dispatched, failed]
+  - in: query
+    name: campaign_id
+    schema:
+      type: integer
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payload:
+              type: array
+              items:
+                $ref: '#/components/schemas/glint_reach_schedule'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach is not enabled for the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: 'Invalid range or time zone'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

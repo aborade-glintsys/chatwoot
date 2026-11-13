@@ -101,8 +101,11 @@ RSpec.describe 'GlintReach Content API', type: :request do
       patch "#{variants_path}/#{variant.id}", params: { variant: { body: 'Edited' } }, headers: headers, as: :json
       expect(variant.reload.body).to eq('Edited')
 
-      post "#{variants_path}/#{variant.id}/transition", params: { status: 'ready' }, headers: headers, as: :json
-      expect(variant.reload).to be_ready
+      post "#{variants_path}/#{variant.id}/transition", params: { status: 'in_review' }, headers: headers, as: :json
+      expect(variant.reload).to be_in_review
+
+      post "#{variants_path}/#{variant.id}/transition", params: { status: 'approved' }, headers: headers, as: :json
+      expect(response).to have_http_status(:conflict)
 
       delete "#{variants_path}/#{variant.id}", headers: headers, as: :json
       expect(GlintReach::ContentVariant.exists?(variant.id)).to be(false)

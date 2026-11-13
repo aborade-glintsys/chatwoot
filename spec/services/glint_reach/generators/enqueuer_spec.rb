@@ -48,9 +48,9 @@ RSpec.describe GlintReach::Generators::Enqueuer do
   end
 
   it 'rejects rewrites of approved variants' do
-    variant.update!(status: :ready)
+    variant.update!(status: :approved)
     expect { enqueue(kind: 'rewrite', content_variant_id: variant.id, instruction: 'Shorter') }
-      .to raise_error(described_class::Rejected, /marked ready/)
+      .to raise_error(described_class::Rejected, /in review, approved or scheduled/)
   end
 
   it 'rejects a duplicate active generation for the same target' do

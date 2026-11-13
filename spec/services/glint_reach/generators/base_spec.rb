@@ -104,11 +104,11 @@ RSpec.describe GlintReach::Generators::Base do
     end
 
     it 'never overwrites ready (approved) variants' do
-      approved = create(:glint_reach_content_variant, content_item: item, platform: :instagram, body: 'Approved', status: :ready)
+      approved = create(:glint_reach_content_variant, content_item: item, platform: :instagram, body: 'Approved', status: :approved)
       generation = generation_for(:variants, content_item: item)
       run(described_class, generation, payload)
 
-      expect(approved.reload).to have_attributes(body: 'Approved', status: 'ready')
+      expect(approved.reload).to have_attributes(body: 'Approved', status: 'approved')
       expect(generation.reload.result['skipped_platforms']).to eq(['instagram'])
     end
 
@@ -135,7 +135,7 @@ RSpec.describe GlintReach::Generators::Base do
 
     it 'refuses to rewrite a variant approved after queuing' do
       generation = generation_for(:rewrite, content_variant: variant, options: { 'instruction' => 'Shorter' })
-      variant.update!(status: :ready)
+      variant.update!(status: :in_review)
 
       expect { run(described_class, generation, payload) }.to raise_error(GlintReach::Generators::Base::TargetLocked, 'variant_approved')
       expect(variant.reload.body).to eq('Old copy')

@@ -84,6 +84,32 @@ class GlintReachAPI extends ApiClient {
     return axios.delete(`${this.url}/campaigns/${campaignId}/assets/${id}`);
   }
 
+  // action: submit | withdraw | review | reopen | schedule | cancel_schedule
+  variantWorkflow(target, action, params = {}) {
+    const { campaignId, contentItemId, variantId } = target;
+    return axios.post(
+      `${this.variantUrl(campaignId, contentItemId, variantId)}/${action}`,
+      params
+    );
+  }
+
+  getVariantApprovals({ campaignId, contentItemId, variantId }) {
+    return axios.get(
+      `${this.variantUrl(campaignId, contentItemId, variantId)}/approvals`
+    );
+  }
+
+  getCalendar({ from, to, timezone, status = [], campaignId } = {}) {
+    const params = { from, to, timezone };
+    if (status.length) params.status = status;
+    if (campaignId) params.campaign_id = campaignId;
+    return axios.get(`${this.url}/calendar`, { params });
+  }
+
+  getApprovals({ page = 1 } = {}) {
+    return axios.get(`${this.url}/approvals`, { params: { page } });
+  }
+
   setVariantAssets({ campaignId, contentItemId, variantId }, assetIds) {
     return axios.put(
       `${this.variantUrl(campaignId, contentItemId, variantId)}/assets`,

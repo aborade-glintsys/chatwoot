@@ -110,7 +110,7 @@ en:
         input_too_large: The brief and brand profile are too long for the AI model. Shorten them and retry.
         invalid_request: The AI provider rejected the request. Check the AI configuration and retry.
         campaign_locked: This campaign can no longer be edited, so content cannot be generated.
-        variant_approved: This variant is marked ready. Move it back to draft before regenerating or rewriting it.
+        variant_approved: This version is in review, approved or scheduled. Move it back to draft before regenerating or rewriting it.
         content_item_missing: The content item was not found or is archived.
         glint_reach_disabled: GlintReach is not enabled for this account.
         timeout: The generation took too long and was stopped. Retry the generation.
@@ -118,6 +118,36 @@ en:
         already_running: A generation for this target is already in progress.
         instruction_required: Enter an instruction for the rewrite.
         instruction_too_long: The instruction must be 500 characters or fewer.
+      workflow:
+        content_locked: This version is in review, approved or scheduled. Move it back to draft to change it.
+        body_required: Add post text before submitting for review.
+        invalid_decision: Choose approve or request changes.
+        self_review: You submitted this version, so another administrator must review it.
+        invalid_transition: 'This version is %{from} and cannot move to %{to}.'
+        stale: This version was changed by someone else. Reload and try again.
+        campaign_locked: This campaign is completed or archived, so its content can no longer change.
+        approval_missing: This version needs an approval before it can be scheduled.
+        approval_stale: The content changed after it was approved. Submit it for review again.
+        already_scheduled: This version is already scheduled.
+        dispatch_started: Publishing has already started for this version, so it can no longer be changed.
+        schedule_missing: No active schedule was found for this version.
+      schedule_time:
+        invalid_timezone: Choose a valid time zone.
+        invalid_date: Enter a valid date (YYYY-MM-DD).
+        invalid_time: Enter a valid time (HH:MM, 24-hour).
+        nonexistent_time: That time does not exist in the chosen time zone because of a daylight-saving change. Pick another time.
+        too_soon: 'Schedule at least %{minutes} minutes from now.'
+        too_far: Schedule no more than one year ahead.
+        before_campaign: The time is before the campaign starts.
+        after_campaign: The time is after the campaign ends.
+      dispatch:
+        glint_reach_disabled: GlintReach was turned off for this account before the scheduled time.
+        campaign_not_active: The campaign was not active at the scheduled time.
+        approval_invalid: The approval no longer matches the content, so it was not published.
+        publisher_unavailable: Publishing to social networks is not available yet, so this post was not published.
+        dispatch_timeout: Publishing did not complete after several attempts.
+      calendar:
+        invalid_range: Choose a valid date range of at most 62 days.
       assets:
         missing: Choose a file to upload.
         empty: The file is empty.
