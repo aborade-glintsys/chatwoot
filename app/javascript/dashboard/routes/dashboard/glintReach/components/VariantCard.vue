@@ -10,6 +10,7 @@ import {
 } from 'dashboard/stores/glintReach/generations';
 import ChipListInput from './ChipListInput.vue';
 import GenerationStatus from './GenerationStatus.vue';
+import AssetPicker from './AssetPicker.vue';
 
 // One platform variant: manual editing, ready/draft, and AI regenerate,
 // rewrite and suggestions. Ready variants are protected from AI changes.
@@ -26,6 +27,7 @@ const { t } = useI18n();
 const campaignsStore = useGlintReachCampaignsStore();
 const generations = useGlintReachGenerationsStore();
 
+const picker = ref(null);
 const isEditing = ref(false);
 const isSaving = ref(false);
 const draft = ref({ body: '', callToAction: '', hashtags: [] });
@@ -63,6 +65,17 @@ const instructionTooLong = computed(
 const suggestions = computed(() =>
   suggestGen.value?.status === 'completed' ? suggestGen.value.result : null
 );
+
+const assets = computed(() => props.variant.assets || []);
+
+const attachAssets = async assetIds => {
+  try {
+    await campaignsStore.setVariantAssets(target.value, assetIds);
+    useAlert(t('GLINT_REACH.ASSETS.ATTACHED'));
+  } catch (error) {
+    useAlert(error.message || t('GLINT_REACH.ASSETS.ERRORS.FAILED'));
+  }
+};
 
 const startEdit = () => {
   draft.value = {
@@ -233,12 +246,40 @@ const useCta = async cta => {
       </p>
     </template>
 
+    <ul
+      v-if="assets.length"
+      class="flex flex-wrap gap-1"
+      data-testid="variant-assets"
+    >
+      <li
+        v-for="asset in assets"
+        :key="asset.id"
+        class="overflow-hidden rounded size-12 bg-n-alpha-2"
+      >
+        <img
+          :src="asset.thumbnailUrl"
+          :alt="asset.altText || ''"
+          loading="lazy"
+          class="object-cover w-full h-full"
+        />
+      </li>
+    </ul>
+
     <div v-if="canEdit && !isEditing" class="flex flex-wrap gap-1">
+      <Button
+        size="xs"
+        variant="ghost"
+        icon="i-lucide-image-plus"
+        data-testid="variant-attach-assets"
+        :label="t('GLINT_REACH.ASSETS.ATTACH')"
+        @click="picker?.open(variant.assetIds || [])"
+      />
       <Button
         v-if="!isReady"
         size="xs"
         variant="ghost"
         icon="i-lucide-pencil"
+        data-testid="variant-edit"
         :label="t('GLINT_REACH.AI.VARIANT.EDIT')"
         @click="startEdit"
       />
@@ -359,5 +400,11 @@ const useCta = async cta => {
         </button>
       </div>
     </div>
+    <AssetPicker
+      v-if="canEdit && campaignId"
+      ref="picker"
+      :campaign-id="campaignId"
+      @select="attachAssets"
+    />
   </li>
 </template>

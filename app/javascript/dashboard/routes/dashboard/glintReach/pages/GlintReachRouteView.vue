@@ -10,6 +10,7 @@ import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
 import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaigns';
 import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
+import { useGlintReachAssetsStore } from 'dashboard/stores/glintReach/assets';
 
 // The dashboard router only enforces `meta.permissions`, so the feature flag is
 // gated here and re-verified by the server before any child page renders.
@@ -32,6 +33,7 @@ const fetchShell = async () => {
   useGlintReachBrandProfileStore().reset();
   useGlintReachCampaignsStore().reset();
   useGlintReachGenerationsStore().reset();
+  useGlintReachAssetsStore().reset();
   shell.value = null;
   isDenied.value = false;
   if (!isEnabled.value) return;

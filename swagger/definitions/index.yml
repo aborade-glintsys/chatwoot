@@ -336,6 +336,8 @@ glint_reach_content_variant:
   $ref: ./resource/glint_reach_content_variant.yml
 glint_reach_generation:
   $ref: ./resource/glint_reach_generation.yml
+glint_reach_asset:
+  $ref: ./resource/glint_reach_asset.yml
 glint_reach_brand_profile_payload:
   $ref: ./request/glint_reach/brand_profile_payload.yml
 glint_reach_campaign_payload:

@@ -1,0 +1,32 @@
+type: object
+description: A campaign image. URLs are signed paths that expire after url_expires_in seconds.
+properties:
+  id:
+    type: integer
+  campaign_id:
+    type: integer
+  filename:
+    type: string
+  content_type:
+    type: string
+    enum: [image/jpeg, image/png, image/webp, image/gif]
+  byte_size:
+    type: integer
+  width:
+    type: integer
+  height:
+    type: integer
+  alt_text:
+    type: [string, 'null']
+  url:
+    type: string
+  thumbnail_url:
+    type: string
+  url_expires_in:
+    type: integer
+  uploaded_by_id:
+    type: integer
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

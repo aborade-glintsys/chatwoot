@@ -123,6 +123,17 @@ export const useGlintReachCampaignsStore = defineStore('glintReachCampaigns', {
       }
     },
 
+    async setVariantAssets(target, assetIds) {
+      try {
+        const { data } = await GlintReachAPI.setVariantAssets(target, assetIds);
+        const variant = toClient(data);
+        this.replaceVariant(variant);
+        return variant;
+      } catch (error) {
+        return rethrowApiError(error);
+      }
+    },
+
     // Reloads the open campaign without blanking it (used after AI writes content).
     async refreshCurrent() {
       if (!this.current) return null;

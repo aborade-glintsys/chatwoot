@@ -118,6 +118,17 @@ en:
         already_running: A generation for this target is already in progress.
         instruction_required: Enter an instruction for the rewrite.
         instruction_too_long: The instruction must be 500 characters or fewer.
+      assets:
+        missing: Choose a file to upload.
+        empty: The file is empty.
+        too_large: 'The file is larger than %{max_mb} MB.'
+        unsupported_type: The file is not a JPEG, PNG, WebP or GIF image. The file contents were checked, not just the name.
+        unreadable: The image could not be read. It may be corrupt.
+        too_small: 'Images must be at least %{min} pixels on each side.'
+        too_big: 'Images must be at most %{max} pixels on each side.'
+        too_many_pixels: 'Images must be at most %{max_mp} megapixels.'
+        too_many_on_variant: 'A channel version can have at most %{max} assets.'
+        not_in_campaign: One or more assets do not belong to this campaign.
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
       metadata_url:

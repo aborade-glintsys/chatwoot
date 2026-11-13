@@ -1,4 +1,4 @@
-# GlintReach API (Phases 02–04)
+# GlintReach API (Phases 02–05)
 
 Base path: `/api/v1/accounts/:account_id/glint_reach`
 
@@ -81,6 +81,21 @@ Generation fields: `id, campaign_id, content_item_id, content_variant_id, kind, 
 input_tokens, output_tokens, requested_by_id, started_at, completed_at, created_at, updated_at`.
 Prompts are never returned or stored. Campaigns now include `strategy`; content items and variants
 include `generation_id`. The shell includes `ai_configured`. Details: [ai-layer.md](ai-layer.md).
+
+## Assets (Phase 05)
+| Method | Path | Body | Notes |
+| --- | --- | --- | --- |
+| GET | `/campaigns/:campaign_id/assets` | – | `{ meta: { count, current_page }, payload: [asset] }`, 50 per page, newest first |
+| POST | `/campaigns/:campaign_id/assets` | multipart `file`, optional `alt_text` | Validated from the bytes; `422 { message, attributes }` on failure |
+| GET | `/campaigns/:campaign_id/assets/:id` | – | Fresh expiring URLs |
+| PATCH | `/campaigns/:campaign_id/assets/:id` | multipart `file` and/or `alt_text` | Replacement keeps variant links |
+| DELETE | `/campaigns/:campaign_id/assets/:id` | – | Removes links and purges the blob |
+| PUT | `/campaigns/:campaign_id/content_items/:content_item_id/variants/:variant_id/assets` | `{ asset_ids: [] }` | Replaces the ordered list (≤ 10, same campaign); empty list clears. Returns the variant |
+
+Asset fields: `id, campaign_id, filename, content_type, byte_size, width, height, alt_text, url,
+thumbnail_url, url_expires_in, uploaded_by_id, created_at, updated_at`. Variants now include
+`asset_ids` and `assets` (`id, alt_text, thumbnail_url`). Writes on locked campaigns return 422.
+Details: [assets.md](assets.md).
 
 ## Lifecycle
 | Record | Transitions |

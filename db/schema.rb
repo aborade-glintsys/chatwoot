@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_093538) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_13_093001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1305,6 +1305,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_093538) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "glint_reach_assets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "uploaded_by_id", null: false
+    t.string "filename", null: false
+    t.string "content_type", null: false
+    t.bigint "byte_size", null: false
+    t.integer "width", null: false
+    t.integer "height", null: false
+    t.string "checksum"
+    t.string "alt_text", limit: 1000
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "campaign_id"], name: "index_glint_reach_assets_on_account_id_and_campaign_id"
+    t.index ["campaign_id", "created_at"], name: "index_glint_reach_assets_on_campaign_id_and_created_at"
+  end
+
   create_table "glint_reach_brand_profiles", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "name", null: false
@@ -1397,6 +1414,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_093538) do
     t.index ["campaign_id", "status"], name: "index_glint_reach_generations_on_campaign_id_and_status"
     t.index ["content_item_id"], name: "index_glint_reach_generations_on_content_item_id"
     t.index ["content_variant_id"], name: "index_glint_reach_generations_on_content_variant_id"
+  end
+
+  create_table "glint_reach_variant_assets", force: :cascade do |t|
+    t.bigint "content_variant_id", null: false
+    t.bigint "asset_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_glint_reach_variant_assets_on_asset_id"
+    t.index ["content_variant_id", "asset_id"], name: "idx_on_content_variant_id_asset_id_aceb8f0109", unique: true
   end
 
   create_table "inbox_assignment_policies", force: :cascade do |t|
@@ -1912,6 +1939,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_093538) do
   add_foreign_key "glint_reach_content_items", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
   add_foreign_key "glint_reach_content_variants", "glint_reach_content_items", column: "content_item_id", on_delete: :cascade
   add_foreign_key "glint_reach_generations", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_assets", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_variant_assets", "glint_reach_assets", column: "asset_id", on_delete: :cascade
+  add_foreign_key "glint_reach_variant_assets", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

@@ -38,7 +38,7 @@ class Api::V1::Accounts::GlintReach::CampaignsController < Api::V1::Accounts::Gl
   private
 
   def fetch_campaign
-    @campaign = campaigns.includes(:created_by, content_items: :variants).find(params[:id])
+    @campaign = campaigns.includes(:created_by, content_items: { variants: { assets: { file_attachment: :blob } } }).find(params[:id])
   end
 
   def filtered_campaigns

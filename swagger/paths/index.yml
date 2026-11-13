@@ -962,3 +962,24 @@
     - $ref: '#/components/parameters/account_id'
   get:
     $ref: ./application/glint_reach/generations_show.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/assets:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/assets_index.yml
+  post:
+    $ref: ./application/glint_reach/assets_create.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/assets/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/assets_show.yml
+  patch:
+    $ref: ./application/glint_reach/assets_update.yml
+  delete:
+    $ref: ./application/glint_reach/assets_delete.yml
+/api/v1/accounts/{account_id}/glint_reach/campaigns/{campaign_id}/content_items/{content_item_id}/variants/{variant_id}/assets:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  put:
+    $ref: ./application/glint_reach/variant_assets_update.yml

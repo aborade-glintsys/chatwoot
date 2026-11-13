@@ -22,6 +22,21 @@ properties:
   generation_id:
     type: [integer, 'null']
     description: AI generation that last wrote this variant
+  asset_ids:
+    type: array
+    items:
+      type: integer
+  assets:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        alt_text:
+          type: [string, 'null']
+        thumbnail_url:
+          type: string
   created_at:
     type: integer
   updated_at:

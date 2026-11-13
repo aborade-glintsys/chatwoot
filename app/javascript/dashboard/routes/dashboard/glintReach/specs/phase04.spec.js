@@ -174,6 +174,11 @@ describe('VariantCard', () => {
   };
   const mountCard = (props = {}) =>
     mount(VariantCard, {
+      global: {
+        stubs: {
+          Dialog: { template: '<div><slot /></div>', methods: { open() {} } },
+        },
+      },
       props: {
         variant,
         campaignId: 7,
@@ -234,7 +239,7 @@ describe('VariantCard', () => {
       data: { ...variant, body: 'Edited', content_item_id: 3 },
     });
     const wrapper = mountCard();
-    await wrapper.find('button').trigger('click');
+    await wrapper.find('[data-testid="variant-edit"]').trigger('click');
     await wrapper.find('textarea').setValue('Edited');
     await wrapper.find('[data-testid="variant-editor"]').trigger('submit');
     await flushPromises();

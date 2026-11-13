@@ -1,6 +1,13 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
+const assetFormData = ({ file, altText } = {}) => {
+  const formData = new FormData();
+  if (file) formData.append('file', file);
+  if (altText !== undefined) formData.append('alt_text', altText);
+  return formData;
+};
+
 class GlintReachAPI extends ApiClient {
   constructor() {
     super('glint_reach', { accountScoped: true });
@@ -51,6 +58,37 @@ class GlintReachAPI extends ApiClient {
     return axios.post(`${this.url}/campaigns/${campaignId}/generations`, {
       generation,
     });
+  }
+
+  getAssets(campaignId, { page = 1 } = {}) {
+    return axios.get(`${this.url}/campaigns/${campaignId}/assets`, {
+      params: { page },
+    });
+  }
+
+  uploadAsset(campaignId, attributes) {
+    return axios.post(
+      `${this.url}/campaigns/${campaignId}/assets`,
+      assetFormData(attributes)
+    );
+  }
+
+  updateAsset(campaignId, id, attributes) {
+    return axios.patch(
+      `${this.url}/campaigns/${campaignId}/assets/${id}`,
+      assetFormData(attributes)
+    );
+  }
+
+  deleteAsset(campaignId, id) {
+    return axios.delete(`${this.url}/campaigns/${campaignId}/assets/${id}`);
+  }
+
+  setVariantAssets({ campaignId, contentItemId, variantId }, assetIds) {
+    return axios.put(
+      `${this.variantUrl(campaignId, contentItemId, variantId)}/assets`,
+      { asset_ids: assetIds }
+    );
   }
 
   variantUrl(campaignId, contentItemId, variantId) {

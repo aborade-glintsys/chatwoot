@@ -168,6 +168,12 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
 - UI: AI panel, per-item variant generation and a variant editor (edit, ready/draft, regenerate,
   rewrite, suggestions) in Content Studio; `generations` Pinia store polls every 2 s.
 
+### 6.4 Implemented in Phase 05
+- `GlintReach::Asset` (campaign-owned image on Active Storage) and `GlintReach::VariantAsset` (ordered
+  links, same-campaign only). Byte-level validation in `GlintReach::AssetInspector`; expiring signed
+  URLs only. Reusable `AssetPicker` dialog and an Assets panel in Content Studio. No image
+  generation. See [assets.md](assets.md).
+
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.
 - Jobs receive primitive IDs and re-load through the account.

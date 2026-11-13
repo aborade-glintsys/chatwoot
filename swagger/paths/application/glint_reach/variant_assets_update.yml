@@ -1,0 +1,70 @@
+tags:
+  - GlintReach
+operationId: set-glint-reach-variant-assets
+summary: 'Set variant assets'
+description: 'Replaces the ordered list of assets on a content variant. Assets must belong to the same campaign.'
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: path
+    name: campaign_id
+    schema:
+      type: integer
+    required: true
+    description: 'Campaign ID'
+  - in: path
+    name: content_item_id
+    schema:
+      type: integer
+    required: true
+    description: 'Content item ID'
+  - in: path
+    name: variant_id
+    schema:
+      type: integer
+    required: true
+    description: 'Variant ID'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          asset_ids:
+            type: array
+            maxItems: 10
+            items:
+              type: integer
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/glint_reach_content_variant'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach is not enabled for the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: 'Too many assets, asset from another campaign, or locked campaign'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

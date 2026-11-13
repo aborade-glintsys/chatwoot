@@ -11,6 +11,9 @@ class GlintReach::ContentVariant < ApplicationRecord
   belongs_to :content_item, class_name: 'GlintReach::ContentItem'
   # Set when the record was drafted by AI (Phase 04); nil for manual content.
   belongs_to :generation, class_name: 'GlintReach::Generation', optional: true
+  has_many :variant_assets, -> { order(:position, :id) }, class_name: 'GlintReach::VariantAsset', dependent: :delete_all,
+                                                          inverse_of: :content_variant
+  has_many :assets, through: :variant_assets
 
   # Common fields only. Platform-specific attributes, when a real requirement appears, go into a
   # single validated jsonb column (see docs/glintreach/architecture.md).

@@ -9,6 +9,7 @@ import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaig
 import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
 import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
 import AiGenerationPanel from '../components/AiGenerationPanel.vue';
+import AssetsPanel from '../components/AssetsPanel.vue';
 import CampaignBriefForm from '../components/CampaignBriefForm.vue';
 import ContentItemsList from '../components/ContentItemsList.vue';
 import GlintReachEmptyState from '../components/GlintReachEmptyState.vue';
@@ -280,6 +281,13 @@ onBeforeUnmount(() => generationsStore.reset());
           </p>
           <AiGenerationPanel :campaign="campaign" :enabled="aiEnabled" />
         </template>
+
+        <AssetsPanel
+          v-if="campaign"
+          :campaign-id="campaign.id"
+          :can-edit="!isLocked"
+          @changed="campaignsStore.refreshCurrent()"
+        />
 
         <section v-if="campaign" class="flex flex-col gap-3">
           <h2 class="mb-0 text-base font-medium text-n-slate-12">

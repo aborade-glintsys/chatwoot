@@ -184,10 +184,12 @@ Rails.application.routes.draw do
             resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
               post :transition, on: :member
               resources :generations, only: [:index, :create]
+              resources :assets, only: [:index, :create, :show, :update, :destroy]
               resources :content_items, only: [:create, :update, :destroy] do
                 post :transition, on: :member
                 resources :variants, controller: 'content_variants', only: [:create, :update, :destroy] do
                   post :transition, on: :member
+                  resource :assets, controller: 'variant_assets', only: [:update]
                 end
               end
             end

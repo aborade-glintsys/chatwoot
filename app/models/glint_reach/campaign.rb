@@ -13,6 +13,8 @@ class GlintReach::Campaign < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
   has_many :content_items, -> { order(:id) }, class_name: 'GlintReach::ContentItem', dependent: :destroy, inverse_of: :campaign
   has_many :generations, class_name: 'GlintReach::Generation', dependent: :delete_all
+  # destroy (not delete) so Active Storage purges the blobs.
+  has_many :assets, class_name: 'GlintReach::Asset', dependent: :destroy
 
   enum :objective, { awareness: 0, engagement: 1, traffic: 2, leads: 3, sales: 4 }, validate: true
   enum :status, { draft: 0, active: 1, paused: 2, completed: 3, archived: 4 }, validate: true

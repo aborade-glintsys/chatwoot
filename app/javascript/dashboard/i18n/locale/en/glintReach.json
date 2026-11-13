@@ -250,6 +250,36 @@
         "USE_CTA": "Use “{cta}”",
         "TRANSITION_FAILED": "Could not change the status."
       }
+    },
+    "ASSETS": {
+      "TITLE": "Assets",
+      "HINT": "JPEG, PNG, WebP or GIF, up to 10 MB and 200–8192 px per side.",
+      "UPLOAD": "Upload image",
+      "EMPTY": "No assets yet. Upload images to use them in this campaign's posts.",
+      "UPLOADED": "Image uploaded.",
+      "REPLACED": "Image replaced.",
+      "REMOVED": "Image removed.",
+      "ALT_SAVED": "Alt text saved.",
+      "ALT_TEXT": "Alt text",
+      "NO_ALT_TEXT": "No alt text. Add a description for accessibility.",
+      "EDIT_ALT": "Alt text",
+      "REPLACE": "Replace",
+      "REMOVE": "Remove",
+      "REMOVE_TITLE": "Remove this image?",
+      "REMOVE_DESCRIPTION": "It will be deleted from storage and removed from every channel version that uses it.",
+      "ATTACH": "Assets",
+      "ATTACHED": "Assets updated.",
+      "PICKER_TITLE": "Choose assets",
+      "PICKER_DESCRIPTION": "Select up to {max} images in the order they should appear.",
+      "PICKER_CONFIRM": "Use selected",
+      "SELECTED": "{count} of {max} selected",
+      "ERRORS": {
+        "MISSING": "Choose a file to upload.",
+        "TYPE": "Choose a JPEG, PNG, WebP or GIF image.",
+        "SIZE": "The file is larger than 10 MB.",
+        "FAILED": "Something went wrong with the image. Try again."
+      },
+      "META": "{width}×{height} · {size}"
     }
   }
 }
