@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: integer
+  status:
+    type: string
+    enum: [pending, dispatching, dispatched, cancelled, failed]
+  scheduled_at:
+    type: integer
+    description: Unix seconds (UTC)
+  scheduled_at_iso:
+    type: string
+  timezone:
+    type: string
+    description: IANA time zone chosen when scheduling
+  error_code:
+    type: [string, 'null']
+  error_message:
+    type: [string, 'null']
+  attempts:
+    type: integer
+  scheduled_by_id:
+    type: integer

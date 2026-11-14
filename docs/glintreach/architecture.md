@@ -91,7 +91,7 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
 | Models | `app/models/glint_reach/*.rb`, tables prefixed `glint_reach_` |
 | Services | `app/services/glint_reach/**` |
 | Jobs | `app/jobs/glint_reach/**` |
-| Policies | `app/policies/glint_reach/*_policy.rb` |
+| Policies | `GlintReachPolicy` (admin-only gate) applied by `Api::V1::Accounts::GlintReach::BaseController`; per-record policies only when rules diverge |
 | Controllers | `app/controllers/api/v1/accounts/glint_reach/*` → `/api/v1/accounts/:account_id/glint_reach/...` |
 | Views | `app/views/api/v1/accounts/glint_reach/**` (Jbuilder) |
 | Frontend | `routes/dashboard/glintReach/`, `api/glintReach/`, Pinia `stores/glintReach/`, `components-next/GlintReach/` |
@@ -112,11 +112,75 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
 - Everything is hidden and inert while the `glint_reach` feature flag is off.
 - No changes to existing campaign tables/APIs.
 
-## 6. Proposed domain architecture
-- Core records (later phases): brand profile, campaign, content item / post variant, schedule,
-  social connection, publish attempt, attribution link/event.
+## 6. Domain architecture
+- Core records (later phases): brand profile, schedule, social connection, publish attempt,
+  attribution link/event.
 - Service objects for workflows (generation, approval, publishing), Sidekiq jobs for async/external
   calls, Jbuilder serializers, Pundit policies.
+
+### 6.1 Implemented in Phase 02
+| Model | Table | Key fields |
+| --- | --- | --- |
+| `GlintReach::Campaign` | `glint_reach_campaigns` | account, created_by (User, must be account member), name, objective (enum), brief, target_audience, status, starts_at/ends_at |
+| `GlintReach::ContentItem` | `glint_reach_content_items` | campaign, title, content_type (enum), status |
+| `GlintReach::ContentVariant` | `glint_reach_content_variants` | content_item, platform (enum, unique per item), body, call_to_action, hashtags (string[]), status |
+
+- `account_id` is denormalized onto child tables and always **derived from the parent** in a
+  `before_validation` callback, so a child can never point at another account.
+- DB foreign keys exist only between GlintReach tables (`on_delete: :cascade`). `account_id` /
+  `created_by_id` follow Chatwoot convention (index + association, no FK). Account deletion cleans up
+  via `Account has_many :glint_reach_campaigns, dependent: :destroy_async`.
+- Lifecycle: `GlintReach::Lifecycle#transition_to!` with an explicit `TRANSITIONS` map per model;
+  invalid transitions raise `ActiveRecord::RecordInvalid` (HTTP 422). Status is never mass-assigned.
+- Safe deletion: campaigns are archived, never hard deleted. Completed/archived campaigns are
+  read-only (including their content).
+- **Platform-specific attributes:** variants store only fields common to all platforms. When a real
+  platform-specific requirement appears, add one `platform_options` jsonb column validated against a
+  per-platform allowlist, rather than per-platform columns.
+- **Audit:** campaign create/update/status changes are recorded through the existing `audited` gem →
+  `Enterprise::AuditLog` (associated with the account) via
+  `enterprise/app/models/enterprise/audit/glint_reach/campaign.rb` (`include_mod_with`). On builds
+  without `enterprise/`, no audit rows are written. Content items/variants are not audited yet.
+- API reference: [api.md](api.md).
+
+### 6.2 Implemented in Phase 03
+- `GlintReach::BrandProfile` (`glint_reach_brand_profiles`): **one per account**, enforced by a
+  unique `account_id` index and `Account has_one`. To support several profiles later, drop the unique
+  index, add `is_default`, and add `brand_profile_id` to campaigns.
+- Campaign brief columns: `offer`, `key_message`, `desired_action`, and `channels` (a string array
+  that must be a subset of the variant platforms). The existing `brief` column is shown as "Notes".
+- Brand profile changes are audited like campaigns (`Enterprise::Audit::GlintReach::BrandProfile`).
+- All brand and brief text is untrusted. It is stored as plain text and rendered only through Vue
+  text interpolation (no `v-html`). The website URL is validated and never fetched.
+- UI (admin + flag): Brand Profile, Campaigns list, and Content Studio (brief editor plus read-only
+  content). Pinia stores live in `dashboard/stores/glintReach/` and are reset when the account changes.
+- How this data reaches future AI services: [ai-inputs.md](ai-inputs.md).
+
+### 6.3 Implemented in Phase 04
+- `GlintReach::Generation` (`glint_reach_generations`): one row per AI request with kind, status
+  (`queued → generating → completed | failed`), request options, result summary, provider/model,
+  token usage and error. `account_id` is derived from the campaign; deleted with the campaign.
+- `campaigns.strategy` (jsonb); `content_items.generation_id` and `content_variants.generation_id`
+  record provenance.
+- AI layer under `app/services/glint_reach/ai/` (provider-neutral request/response/errors, resolver,
+  `ruby_llm` adapter) and `app/services/glint_reach/generators/` (context, schemas, one generator per
+  kind, enqueuer). Async via `GlintReach::GenerationJob` (`medium` queue). See [ai-layer.md](ai-layer.md).
+- UI: AI panel, per-item variant generation and a variant editor (edit, ready/draft, regenerate,
+  rewrite, suggestions) in Content Studio; `generations` Pinia store polls every 2 s.
+
+### 6.4 Implemented in Phase 05
+- `GlintReach::Asset` (campaign-owned image on Active Storage) and `GlintReach::VariantAsset` (ordered
+  links, same-campaign only). Byte-level validation in `GlintReach::AssetInspector`; expiring signed
+  URLs only. Reusable `AssetPicker` dialog and an Assets panel in Content Studio. No image
+  generation. See [assets.md](assets.md).
+
+### 6.5 Implemented in Phase 06
+- Variant workflow (`draft → in_review → changes_requested/approved → scheduled → publishing →
+  published/failed`) in `GlintReach::Workflow`, with append-only `GlintReach::Approval` (content
+  digest) and `GlintReach::Schedule` (UTC time, IANA zone, one live schedule per variant).
+- Minute-level sidekiq-cron dispatcher with `SKIP LOCKED` claims and idempotent per-schedule jobs.
+  No publishers yet, so due posts fail with `publisher_unavailable`. Calendar module (calendar, list,
+  approvals). See [workflow.md](workflow.md).
 
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.

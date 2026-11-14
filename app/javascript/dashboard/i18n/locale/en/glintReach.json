@@ -11,13 +11,18 @@
       "DESCRIPTION": "This module is not available yet. It will appear here once it is released for your account."
     },
     "OVERVIEW": {
-      "DESCRIPTION": "GlintReach modules are being rolled out. None of them are active yet, so there is no campaign data to show.",
-      "AVAILABLE": "Available"
+      "DESCRIPTION": "Set up your brand profile, plan campaigns and write campaign briefs. More modules will be added as they are released.",
+      "AVAILABLE": "Available",
+      "OPEN": "Open"
     },
     "MODULES": {
       "OVERVIEW": {
         "TITLE": "Overview",
         "DESCRIPTION": "A summary of your GlintReach workspace."
+      },
+      "BRAND_PROFILE": {
+        "TITLE": "Brand Profile",
+        "DESCRIPTION": "Describe your brand, audience, voice and the claims to avoid."
       },
       "CAMPAIGNS": {
         "TITLE": "Campaigns",
@@ -39,6 +44,325 @@
         "TITLE": "Analytics",
         "DESCRIPTION": "Measure how campaigns perform and what they bring in."
       }
+    },
+    "FORM": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "RETRY": "Try again",
+      "NOT_SET": "Not set",
+      "REMOVE_ITEM": "Remove {item}"
+    },
+    "VALIDATION": {
+      "REQUIRED": "This field is required.",
+      "TOO_LONG": "Must be at most {max} characters.",
+      "TOO_MANY": "You can add at most {max} items.",
+      "INVALID": "Contains an invalid value.",
+      "INVALID_URL": "Enter a full web address starting with http:// or https://.",
+      "END_BEFORE_START": "End date must be after the start date.",
+      "SERVER_REJECTED": "This value was rejected. Check it and try again."
+    },
+    "ERRORS": {
+      "LOAD_FAILED": "Could not load this page",
+      "SAVE_FAILED": "Could not save your changes. Try again."
+    },
+    "BRAND_PROFILE": {
+      "DESCRIPTION": "This information describes your brand. It is stored for this account only and will guide content created in GlintReach.",
+      "EMPTY_TITLE": "No brand profile yet",
+      "EMPTY_DESCRIPTION": "Add your brand name, audience, voice and messaging rules so every campaign starts from the same foundation.",
+      "CREATE": "Create brand profile",
+      "SAVED": "Brand profile saved",
+      "SECTIONS": {
+        "IDENTITY": "Brand",
+        "ABOUT": "About",
+        "AUDIENCE": "Audience and market",
+        "VOICE": "Voice and messaging"
+      },
+      "FIELDS": {
+        "NAME": "Brand name",
+        "WEBSITE_URL": "Website",
+        "DESCRIPTION": "Description",
+        "PRODUCTS_SERVICES": "Products and services",
+        "TARGET_AUDIENCE": "Target audience",
+        "GEOGRAPHIC_MARKET": "Geographic market",
+        "PREFERRED_LANGUAGES": "Preferred languages",
+        "VOICE_AND_TONE": "Voice and tone",
+        "MESSAGING_GUIDELINES": "Messaging guidelines",
+        "PROHIBITED_CLAIMS": "Prohibited claims",
+        "APPROVED_CTAS": "Approved calls to action"
+      },
+      "PLACEHOLDERS": {
+        "NAME": "e.g. Acme Outdoors",
+        "WEBSITE_URL": "https://www.example.com",
+        "DESCRIPTION": "What your brand does and what it stands for",
+        "PRODUCTS_SERVICES": "The products or services you promote",
+        "TARGET_AUDIENCE": "Who you want to reach",
+        "GEOGRAPHIC_MARKET": "Countries, regions or cities you serve",
+        "PREFERRED_LANGUAGES": "Add a language",
+        "VOICE_AND_TONE": "e.g. Friendly, confident, no jargon",
+        "MESSAGING_GUIDELINES": "Rules every message should follow",
+        "PROHIBITED_CLAIMS": "Claims that must never be made",
+        "APPROVED_CTAS": "Type a call to action and press Enter"
+      },
+      "HELP": {
+        "WEBSITE_URL": "Saved for reference only. GlintReach does not visit this address.",
+        "APPROVED_CTAS": "Add up to {max} short calls to action."
+      }
+    },
+    "CAMPAIGNS": {
+      "DESCRIPTION": "Every campaign has a brief that guides its content.",
+      "NEW": "New campaign",
+      "SEARCH": "Search campaigns",
+      "STATUS_FILTER": "Filter by status",
+      "ALL_ACTIVE": "All except archived",
+      "EMPTY_TITLE": "No campaigns yet",
+      "EMPTY_DESCRIPTION": "Create a campaign and write its brief to get started.",
+      "NO_RESULTS_TITLE": "No matching campaigns",
+      "NO_RESULTS_DESCRIPTION": "Try a different search or status.",
+      "CLEAR_FILTERS": "Clear filters"
+    },
+    "CONTENT_STUDIO": {
+      "DESCRIPTION": "Write the campaign brief and review the content planned for it.",
+      "BACK": "All campaigns",
+      "PICK_CAMPAIGN": "Choose a campaign",
+      "EMPTY_TITLE": "No campaigns to work on",
+      "EMPTY_DESCRIPTION": "Content Studio works on a campaign. Create one to write its brief.",
+      "BRAND_HINT_TITLE": "Add your brand profile",
+      "BRAND_HINT_DESCRIPTION": "Your brand profile is empty. Fill it in so campaign content can follow your voice and rules."
+    },
+    "BRIEF": {
+      "TITLE": "Campaign brief",
+      "SAVE": "Save brief",
+      "CREATE": "Create campaign",
+      "SAVED": "Campaign brief saved",
+      "CREATED": "Campaign created",
+      "LOCKED": "This campaign is completed or archived, so its brief can no longer be edited.",
+      "FIELDS": {
+        "NAME": "Campaign name",
+        "OBJECTIVE": "Objective",
+        "AUDIENCE": "Audience",
+        "OFFER": "Offer",
+        "KEY_MESSAGE": "Key message",
+        "DESIRED_ACTION": "Desired action",
+        "CHANNELS": "Channels",
+        "STARTS_AT": "Start date (optional)",
+        "ENDS_AT": "End date (optional)",
+        "NOTES": "Notes"
+      },
+      "PLACEHOLDERS": {
+        "NAME": "e.g. Spring collection launch",
+        "OBJECTIVE": "Select an objective",
+        "AUDIENCE": "Who this campaign is for",
+        "OFFER": "What you are offering, e.g. 20% off for the first week",
+        "KEY_MESSAGE": "The one thing people should remember",
+        "DESIRED_ACTION": "e.g. Visit the store",
+        "NOTES": "Anything else the team should know"
+      }
+    },
+    "CONTENT": {
+      "TITLE": "Campaign content",
+      "EMPTY_TITLE": "No content yet",
+      "EMPTY_DESCRIPTION": "Content for this campaign will appear here.",
+      "NO_VARIANTS": "No channel versions yet."
+    },
+    "OBJECTIVES": {
+      "AWARENESS": "Awareness",
+      "ENGAGEMENT": "Engagement",
+      "TRAFFIC": "Traffic",
+      "LEADS": "Leads",
+      "SALES": "Sales"
+    },
+    "STATUSES": {
+      "DRAFT": "Draft",
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "COMPLETED": "Completed",
+      "ARCHIVED": "Archived",
+      "READY": "Ready",
+      "IN_REVIEW": "In review",
+      "CHANGES_REQUESTED": "Changes requested",
+      "APPROVED": "Approved",
+      "SCHEDULED": "Scheduled",
+      "PUBLISHING": "Publishing",
+      "PUBLISHED": "Published",
+      "FAILED": "Failed"
+    },
+    "CONTENT_TYPES": {
+      "POST": "Post",
+      "IMAGE": "Image",
+      "VIDEO": "Video",
+      "CAROUSEL": "Carousel",
+      "STORY": "Story"
+    },
+    "PLATFORMS": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "LINKEDIN": "LinkedIn",
+      "X": "X",
+      "TIKTOK": "TikTok"
+    },
+    "AI": {
+      "NOT_CONFIGURED_TITLE": "AI generation is not set up",
+      "NOT_CONFIGURED_DESCRIPTION": "An installation admin needs to add an OpenAI key in Super Admin → Captain settings before content can be generated.",
+      "LOCKED": "This campaign can no longer be edited, so AI generation is off.",
+      "TITLE": "AI assistant",
+      "DESCRIPTION": "Generate a strategy and drafts from the saved brief and brand profile. Drafts are never published automatically.",
+      "SAVE_BRIEF_FIRST": "Save the brief first. AI uses the saved version.",
+      "STRATEGY_TITLE": "Strategy",
+      "STRATEGY_EMPTY": "No strategy yet.",
+      "GENERATE_STRATEGY": "Generate strategy",
+      "REGENERATE_STRATEGY": "Regenerate strategy",
+      "POSITIONING": "Positioning",
+      "KEY_MESSAGES": "Key messages",
+      "PILLARS": "Content pillars",
+      "CHANNEL_APPROACH": "Channel approach",
+      "PLAN_TITLE": "Content plan",
+      "PLAN_COUNT": "Number of pieces",
+      "GENERATE_PLAN": "Generate content plan",
+      "ADD_ITEM": "Add one piece with AI",
+      "GENERATE_VARIANTS": "Generate channel versions",
+      "PLATFORMS": "Channels",
+      "PLATFORMS_REQUIRED": "Pick at least one channel.",
+      "STATUS": {
+        "QUEUED": "Queued",
+        "GENERATING": "Generating…",
+        "COMPLETED": "Done",
+        "FAILED": "Failed"
+      },
+      "SKIPPED_READY": "Skipped channels marked ready: {platforms}",
+      "RETRY": "Retry",
+      "QUEUED_ALERT": "Generation started.",
+      "REQUEST_FAILED": "Could not start the generation.",
+      "VARIANT": {
+        "EDIT": "Edit",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "SAVED": "Draft saved.",
+        "SAVE_FAILED": "Could not save the draft.",
+        "BODY": "Post text",
+        "CTA": "Call to action",
+        "HASHTAGS": "Hashtags",
+        "HASHTAGS_PLACEHOLDER": "Type a hashtag and press Enter",
+        "READY_HINT": "This version is in review, approved or scheduled, so it can't be edited or regenerated. Reopen or withdraw it to make changes.",
+        "REGENERATE": "Regenerate",
+        "REWRITE": "Rewrite",
+        "REWRITE_PLACEHOLDER": "e.g. Make it shorter and more playful",
+        "REWRITE_SUBMIT": "Rewrite with AI",
+        "INSTRUCTION_TOO_LONG": "Keep the instruction under {max} characters.",
+        "SUGGEST": "Suggest hashtags and CTAs",
+        "SUGGESTIONS": "Suggestions",
+        "APPLY_HASHTAG": "Add #{tag}",
+        "USE_CTA": "Use “{cta}”"
+      }
+    },
+    "ASSETS": {
+      "TITLE": "Assets",
+      "HINT": "JPEG, PNG, WebP or GIF, up to 10 MB and 200–8192 px per side.",
+      "UPLOAD": "Upload image",
+      "EMPTY": "No assets yet. Upload images to use them in this campaign's posts.",
+      "UPLOADED": "Image uploaded.",
+      "REPLACED": "Image replaced.",
+      "REMOVED": "Image removed.",
+      "ALT_SAVED": "Alt text saved.",
+      "ALT_TEXT": "Alt text",
+      "NO_ALT_TEXT": "No alt text. Add a description for accessibility.",
+      "EDIT_ALT": "Alt text",
+      "REPLACE": "Replace",
+      "REMOVE": "Remove",
+      "REMOVE_TITLE": "Remove this image?",
+      "REMOVE_DESCRIPTION": "It will be deleted from storage and removed from every channel version that uses it.",
+      "ATTACH": "Assets",
+      "ATTACHED": "Assets updated.",
+      "PICKER_TITLE": "Choose assets",
+      "PICKER_DESCRIPTION": "Select up to {max} images in the order they should appear.",
+      "PICKER_CONFIRM": "Use selected",
+      "SELECTED": "{count} of {max} selected",
+      "ERRORS": {
+        "MISSING": "Choose a file to upload.",
+        "TYPE": "Choose a JPEG, PNG, WebP or GIF image.",
+        "SIZE": "The file is larger than 10 MB.",
+        "FAILED": "Something went wrong with the image. Try again."
+      },
+      "META": "{width}×{height} · {size}"
+    },
+    "WORKFLOW": {
+      "SUBMIT": "Submit for review",
+      "SUBMITTED": "Submitted for review.",
+      "WITHDRAW": "Withdraw",
+      "WITHDRAWN": "Moved back to draft.",
+      "REVIEW": "Review",
+      "APPROVE": "Approve",
+      "REQUEST_CHANGES": "Request changes",
+      "APPROVED": "Approved.",
+      "CHANGES_SENT": "Changes requested.",
+      "FEEDBACK": "Feedback (required when requesting changes)",
+      "FEEDBACK_REQUIRED": "Add feedback so the author knows what to change.",
+      "FEEDBACK_FROM": "Feedback from {name}:",
+      "REOPEN": "Reopen as draft",
+      "REOPENED": "Reopened as draft. It needs a new approval.",
+      "RESCHEDULE": "Reschedule",
+      "SCHEDULED": "Scheduled.",
+      "CANCEL_SCHEDULE": "Cancel schedule",
+      "CANCELLED": "Schedule cancelled.",
+      "SCHEDULED_FOR": "Scheduled for {time}",
+      "WAITING_FOR_REVIEW": "Waiting for review.",
+      "SELF_REVIEW_HINT": "You submitted this version, so another administrator needs to review it.",
+      "FAILED": "The action could not be completed. Reload and try again.",
+      "SCHEDULE": {
+        "TITLE": "Schedule post",
+        "DESCRIPTION": "Choose when this approved version should be published, in an explicit time zone.",
+        "CONFIRM": "Schedule",
+        "DATE": "Date",
+        "TIME": "Time (24-hour)",
+        "TIMEZONE": "Time zone",
+        "NOTE": "Publishing to social networks is not available yet. At the scheduled time this post will be marked as failed with that reason; nothing is posted.",
+        "INVALID": "Enter a date and a time."
+      }
+    },
+    "CALENDAR": {
+      "DESCRIPTION": "Review, approve and schedule campaign content.",
+      "TABS": {
+        "CALENDAR": "Calendar",
+        "LIST": "List",
+        "APPROVALS": "Approvals"
+      },
+      "VIEWS": {
+        "MONTH": "Month",
+        "WEEK": "Week",
+        "DAY": "Day"
+      },
+      "WEEKDAYS": {
+        "MON": "Mon",
+        "TUE": "Tue",
+        "WED": "Wed",
+        "THU": "Thu",
+        "FRI": "Fri",
+        "SAT": "Sat",
+        "SUN": "Sun"
+      },
+      "PREVIOUS": "Previous",
+      "NEXT": "Next",
+      "TODAY": "Today",
+      "EMPTY": "Nothing scheduled in this period.",
+      "ITEM_LABEL": "{time} · {platform}",
+      "RANGE": "{from} to {to}",
+      "COLUMNS": {
+        "TIME": "Time",
+        "CONTENT": "Content",
+        "CHANNEL": "Channel",
+        "STATUS": "Status"
+      },
+      "SCHEDULE_STATUS": {
+        "PENDING": "Scheduled",
+        "DISPATCHING": "Publishing",
+        "DISPATCHED": "Published",
+        "FAILED": "Failed",
+        "CANCELLED": "Cancelled"
+      }
+    },
+    "APPROVALS": {
+      "EMPTY": "No content is waiting for review.",
+      "META": "{campaign} · {platform} · submitted by {name}"
     }
   }
 }

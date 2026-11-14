@@ -1,0 +1,52 @@
+tags:
+  - GlintReach
+operationId: create-glint-reach-content-item
+summary: 'Create a content item'
+description: ''
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: path
+    name: campaign_id
+    schema:
+      type: integer
+    required: true
+    description: 'Campaign ID'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/glint_reach_content_item_payload'
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/glint_reach_content_item'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach is not enabled for the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: 'Invalid input, invalid status transition, or campaign is completed/archived'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

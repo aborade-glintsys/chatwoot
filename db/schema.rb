@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_13_100002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1305,6 +1305,162 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "glint_reach_approvals", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "content_variant_id", null: false
+    t.bigint "reviewer_id", null: false
+    t.integer "decision", null: false
+    t.text "feedback"
+    t.string "content_digest", null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id"], name: "index_glint_reach_approvals_on_account_id"
+    t.index ["content_variant_id", "id"], name: "index_glint_reach_approvals_on_content_variant_id_and_id"
+  end
+
+  create_table "glint_reach_assets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "uploaded_by_id", null: false
+    t.string "filename", null: false
+    t.string "content_type", null: false
+    t.bigint "byte_size", null: false
+    t.integer "width", null: false
+    t.integer "height", null: false
+    t.string "checksum"
+    t.string "alt_text", limit: 1000
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "campaign_id"], name: "index_glint_reach_assets_on_account_id_and_campaign_id"
+    t.index ["campaign_id", "created_at"], name: "index_glint_reach_assets_on_campaign_id_and_created_at"
+  end
+
+  create_table "glint_reach_brand_profiles", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "website_url", limit: 2048
+    t.text "products_services"
+    t.text "target_audience"
+    t.text "geographic_market"
+    t.string "preferred_languages", default: [], null: false, array: true
+    t.text "voice_and_tone"
+    t.text "messaging_guidelines"
+    t.text "prohibited_claims"
+    t.string "approved_ctas", default: [], null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_glint_reach_brand_profiles_on_account_id", unique: true
+  end
+
+  create_table "glint_reach_campaigns", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "name", null: false
+    t.integer "objective", null: false
+    t.text "brief"
+    t.text "target_audience"
+    t.integer "status", default: 0, null: false
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "offer"
+    t.text "key_message"
+    t.string "desired_action"
+    t.string "channels", default: [], null: false, array: true
+    t.jsonb "strategy"
+    t.index ["account_id", "status"], name: "index_glint_reach_campaigns_on_account_id_and_status"
+    t.index ["created_by_id"], name: "index_glint_reach_campaigns_on_created_by_id"
+  end
+
+  create_table "glint_reach_content_items", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.string "title", null: false
+    t.integer "content_type", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "generation_id"
+    t.index ["account_id"], name: "index_glint_reach_content_items_on_account_id"
+    t.index ["campaign_id", "status"], name: "index_glint_reach_content_items_on_campaign_id_and_status"
+  end
+
+  create_table "glint_reach_content_variants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "content_item_id", null: false
+    t.integer "platform", null: false
+    t.text "body"
+    t.string "call_to_action"
+    t.string "hashtags", default: [], null: false, array: true
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "generation_id"
+    t.integer "lock_version", default: 0, null: false
+    t.bigint "submitted_by_id"
+    t.datetime "submitted_at"
+    t.index ["account_id"], name: "index_glint_reach_content_variants_on_account_id"
+    t.index ["content_item_id", "platform"], name: "idx_on_content_item_id_platform_917095f209", unique: true
+  end
+
+  create_table "glint_reach_generations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "campaign_id", null: false
+    t.bigint "content_item_id"
+    t.bigint "content_variant_id"
+    t.bigint "requested_by_id", null: false
+    t.integer "kind", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "options", default: {}, null: false
+    t.jsonb "result", default: {}, null: false
+    t.string "provider"
+    t.string "model"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "credit_multiplier"
+    t.string "error_code"
+    t.string "error_message", limit: 500
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_glint_reach_generations_on_account_id_and_created_at"
+    t.index ["campaign_id", "status"], name: "index_glint_reach_generations_on_campaign_id_and_status"
+    t.index ["content_item_id"], name: "index_glint_reach_generations_on_content_item_id"
+    t.index ["content_variant_id"], name: "index_glint_reach_generations_on_content_variant_id"
+  end
+
+  create_table "glint_reach_schedules", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "content_variant_id", null: false
+    t.bigint "approval_id", null: false
+    t.bigint "scheduled_by_id", null: false
+    t.datetime "scheduled_at", null: false
+    t.string "timezone", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.string "error_code"
+    t.string "error_message", limit: 500
+    t.datetime "dispatch_started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "scheduled_at"], name: "index_glint_reach_schedules_on_account_id_and_scheduled_at"
+    t.index ["content_variant_id"], name: "index_glint_reach_schedules_one_live_per_variant", unique: true, where: "(status = ANY (ARRAY[0, 1]))"
+    t.index ["status", "scheduled_at"], name: "index_glint_reach_schedules_on_status_and_scheduled_at"
+  end
+
+  create_table "glint_reach_variant_assets", force: :cascade do |t|
+    t.bigint "content_variant_id", null: false
+    t.bigint "asset_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_glint_reach_variant_assets_on_asset_id"
+    t.index ["content_variant_id", "asset_id"], name: "idx_on_content_variant_id_asset_id_aceb8f0109", unique: true
+  end
+
   create_table "inbox_assignment_policies", force: :cascade do |t|
     t.bigint "inbox_id", null: false
     t.bigint "assignment_policy_id", null: false
@@ -1815,6 +1971,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "glint_reach_approvals", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
+  add_foreign_key "glint_reach_assets", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_content_items", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_content_variants", "glint_reach_content_items", column: "content_item_id", on_delete: :cascade
+  add_foreign_key "glint_reach_generations", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_schedules", "glint_reach_approvals", column: "approval_id", on_delete: :cascade
+  add_foreign_key "glint_reach_schedules", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
+  add_foreign_key "glint_reach_variant_assets", "glint_reach_assets", column: "asset_id", on_delete: :cascade
+  add_foreign_key "glint_reach_variant_assets", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

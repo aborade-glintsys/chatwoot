@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import GlintReachAPI from 'dashboard/api/glintReach';
 import GlintReachRouteView from '../pages/GlintReachRouteView.vue';
+import { setActivePinia, createPinia } from 'pinia';
+import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
 
 vi.mock('dashboard/composables/usePolicy');
 vi.mock('dashboard/api/glintReach', () => ({
@@ -20,10 +22,13 @@ const mountView = () =>
 
 describe('GlintReachRouteView', () => {
   let flagEnabled;
+  let route;
 
   beforeEach(() => {
+    setActivePinia(createPinia());
     flagEnabled = true;
-    useRoute.mockReturnValue(reactive({ params: { accountId: '1' } }));
+    route = reactive({ params: { accountId: '1' } });
+    useRoute.mockReturnValue(route);
     usePolicy.mockReturnValue({ isFeatureFlagEnabled: () => flagEnabled });
     GlintReachAPI.getShell.mockReset();
   });
@@ -60,5 +65,19 @@ describe('GlintReachRouteView', () => {
 
     expect(GlintReachAPI.getShell).toHaveBeenCalledTimes(1);
     expect(wrapper.find('.child').exists()).toBe(true);
+  });
+
+  it('drops cached GlintReach data when the account changes', async () => {
+    GlintReachAPI.getShell.mockResolvedValue({ data: { modules: [] } });
+    mountView();
+    await flushPromises();
+    const store = useGlintReachBrandProfileStore();
+    store.profile = { id: 1, name: 'Account 1 brand' };
+
+    route.params.accountId = '2';
+    await flushPromises();
+
+    expect(store.profile).toBeNull();
+    expect(GlintReachAPI.getShell).toHaveBeenCalledTimes(2);
   });
 });

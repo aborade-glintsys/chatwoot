@@ -1,0 +1,47 @@
+type: object
+required: [brand_profile]
+properties:
+  brand_profile:
+    type: object
+    properties:
+      name:
+        type: string
+        maxLength: 255
+        description: Required on first save
+      description:
+        type: string
+        maxLength: 5000
+      website_url:
+        type: string
+        maxLength: 2048
+        description: Absolute http or https URL without credentials
+      products_services:
+        type: string
+        maxLength: 5000
+      target_audience:
+        type: string
+        maxLength: 5000
+      geographic_market:
+        type: string
+        maxLength: 5000
+      preferred_languages:
+        type: array
+        maxItems: 10
+        items:
+          type: string
+          pattern: '^[a-z]{2,3}(-[A-Za-z]{2,4})?$'
+      voice_and_tone:
+        type: string
+        maxLength: 5000
+      messaging_guidelines:
+        type: string
+        maxLength: 5000
+      prohibited_claims:
+        type: string
+        maxLength: 5000
+      approved_ctas:
+        type: array
+        maxItems: 20
+        items:
+          type: string
+          maxLength: 100

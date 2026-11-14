@@ -8,6 +8,13 @@ export const GLINT_REACH_MODULES = [
     i18nKey: 'OVERVIEW',
   },
   {
+    key: 'brand_profile',
+    path: 'brand-profile',
+    routeName: 'glint_reach_brand_profile',
+    icon: 'i-lucide-badge-check',
+    i18nKey: 'BRAND_PROFILE',
+  },
+  {
     key: 'campaigns',
     path: 'campaigns',
     routeName: 'glint_reach_campaigns',

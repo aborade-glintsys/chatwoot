@@ -1,0 +1,12 @@
+type: object
+required: [content_item]
+properties:
+  content_item:
+    type: object
+    properties:
+      title:
+        type: string
+        maxLength: 255
+      content_type:
+        type: string
+        enum: [post, image, video, carousel, story]

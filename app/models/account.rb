@@ -63,6 +63,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_auto_resolve_mode
   store_accessor :settings, :enforce_mfa
   include AccountCaptainAutoResolve
+  include GlintReachAccount
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async

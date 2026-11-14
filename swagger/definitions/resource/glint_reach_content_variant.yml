@@ -1,0 +1,63 @@
+type: object
+properties:
+  id:
+    type: integer
+  content_item_id:
+    type: integer
+  platform:
+    type: string
+    enum: [facebook, instagram, linkedin, x, tiktok]
+  body:
+    type: [string, 'null']
+  call_to_action:
+    type: [string, 'null']
+  hashtags:
+    type: array
+    items:
+      type: string
+    description: Stored without the leading '#'
+  status:
+    type: string
+    enum: [draft, in_review, changes_requested, approved, scheduled, publishing, published, failed]
+  generation_id:
+    type: [integer, 'null']
+    description: AI generation that last wrote this variant
+  lock_version:
+    type: integer
+  editable:
+    type: boolean
+  submitted_by_id:
+    type: [integer, 'null']
+  submitted_at:
+    type: [integer, 'null']
+  permissions:
+    type: object
+    additionalProperties:
+      type: boolean
+  latest_approval:
+    oneOf:
+      - $ref: '#/components/schemas/glint_reach_approval'
+      - type: 'null'
+  schedule:
+    oneOf:
+      - $ref: '#/components/schemas/glint_reach_schedule'
+      - type: 'null'
+  asset_ids:
+    type: array
+    items:
+      type: integer
+  assets:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        alt_text:
+          type: [string, 'null']
+        thumbnail_url:
+          type: string
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

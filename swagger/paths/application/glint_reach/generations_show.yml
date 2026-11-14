@@ -1,0 +1,40 @@
+tags:
+  - GlintReach
+operationId: get-glint-reach-generation
+summary: 'Get an AI generation'
+description: 'Returns the status, result summary, usage and error of an AI generation.'
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: 'Generation ID'
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/glint_reach_generation'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach is not enabled for the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

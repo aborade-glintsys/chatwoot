@@ -54,6 +54,13 @@ const modules = computed(() =>
         <p class="text-sm text-n-slate-11">
           {{ t(`GLINT_REACH.MODULES.${module.i18nKey}.DESCRIPTION`) }}
         </p>
+        <router-link
+          v-if="module.available"
+          :to="{ name: module.routeName }"
+          class="mt-auto text-sm font-medium text-glint-reach hover:underline w-fit"
+        >
+          {{ t('GLINT_REACH.OVERVIEW.OPEN') }}
+        </router-link>
       </li>
     </ul>
   </section>

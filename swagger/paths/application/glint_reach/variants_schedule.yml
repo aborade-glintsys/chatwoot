@@ -1,0 +1,76 @@
+tags:
+  - GlintReach
+operationId: glint-reach-variant-schedule
+summary: 'Schedule or reschedule a variant'
+description: 'Wall-clock date and time in an explicit IANA time zone. DST gaps are rejected; repeated times use the first occurrence.'
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: path
+    name: campaign_id
+    schema:
+      type: integer
+    required: true
+    description: 'Campaign ID'
+  - in: path
+    name: content_item_id
+    schema:
+      type: integer
+    required: true
+    description: 'Content item ID'
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: 'Variant ID'
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          lock_version:
+            type: integer
+          date:
+            type: string
+            format: date
+          time:
+            type: string
+            pattern: '^([01][0-9]|2[0-3]):[0-5][0-9]$'
+          timezone:
+            type: string
+            example: Asia/Kolkata
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/glint_reach_content_variant'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach disabled, or self-review'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '409':
+    description: 'Invalid transition, stale lock_version, locked campaign, approval missing or stale, invalid schedule time, or dispatch already started'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

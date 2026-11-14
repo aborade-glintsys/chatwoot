@@ -1,0 +1,15 @@
+json.id brand_profile.id
+json.account_id brand_profile.account_id
+json.name brand_profile.name
+json.description brand_profile.description
+json.website_url brand_profile.website_url
+json.products_services brand_profile.products_services
+json.target_audience brand_profile.target_audience
+json.geographic_market brand_profile.geographic_market
+json.preferred_languages brand_profile.preferred_languages
+json.voice_and_tone brand_profile.voice_and_tone
+json.messaging_guidelines brand_profile.messaging_guidelines
+json.prohibited_claims brand_profile.prohibited_claims
+json.approved_ctas brand_profile.approved_ctas
+json.created_at brand_profile.created_at.to_i
+json.updated_at brand_profile.updated_at.to_i

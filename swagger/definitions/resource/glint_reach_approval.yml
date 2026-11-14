@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    type: integer
+  decision:
+    type: string
+    enum: [approved, changes_requested]
+  feedback:
+    type: [string, 'null']
+  reviewer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: [string, 'null']
+  created_at:
+    type: integer

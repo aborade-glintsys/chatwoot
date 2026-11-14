@@ -179,6 +179,28 @@ Rails.application.routes.draw do
           end
           namespace :glint_reach do
             resource :shell, only: [:show]
+            resource :brand_profile, only: [:show, :update]
+            resources :generations, only: [:show]
+            resources :calendar, only: [:index], controller: 'calendar'
+            resources :approvals, only: [:index]
+            resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
+              post :transition, on: :member
+              resources :generations, only: [:index, :create]
+              resources :assets, only: [:index, :create, :show, :update, :destroy]
+              resources :content_items, only: [:create, :update, :destroy] do
+                post :transition, on: :member
+                resources :variants, controller: 'content_variants', only: [:create, :update, :destroy] do
+                  member do
+                    post :transition
+                    %w[submit withdraw review reopen schedule cancel_schedule].each do |action|
+                      post action, to: "variant_workflows##{action}"
+                    end
+                    get :approvals, to: 'variant_workflows#approvals'
+                  end
+                  resource :assets, controller: 'variant_assets', only: [:update]
+                end
+              end
+            end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
             if ChatwootApp.enterprise?

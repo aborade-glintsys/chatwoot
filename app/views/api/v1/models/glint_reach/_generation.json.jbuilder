@@ -1,0 +1,20 @@
+# Prompts are never stored or rendered; only request options, outcome and usage metadata.
+json.id generation.id
+json.campaign_id generation.campaign_id
+json.content_item_id generation.content_item_id
+json.content_variant_id generation.content_variant_id
+json.kind generation.kind
+json.status generation.status
+json.options generation.options
+json.result generation.result
+json.error_code generation.error_code
+json.error_message generation.error_message
+json.provider generation.provider
+json.model generation.model
+json.input_tokens generation.input_tokens
+json.output_tokens generation.output_tokens
+json.requested_by_id generation.requested_by_id
+json.started_at generation.started_at&.to_i
+json.completed_at generation.completed_at&.to_i
+json.created_at generation.created_at.to_i
+json.updated_at generation.updated_at.to_i

@@ -213,3 +213,8 @@ features:
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small
+  # GlintReach campaign strategy and content drafts. Internal: not shown in the Captain model settings UI.
+  glint_reach_generation:
+    models: [gpt-6-luna, gpt-5-mini, gpt-5.1, gpt-5.2]
+    default: gpt-6-luna
+    internal: true

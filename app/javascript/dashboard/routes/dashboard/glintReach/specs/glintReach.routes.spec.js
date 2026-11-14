@@ -36,4 +36,14 @@ describe('glintReach routes', () => {
       params: { accountId: 7 },
     });
   });
+
+  it('adds create and per-campaign Content Studio routes', () => {
+    const byName = name => allRoutes.find(route => route.name === name);
+    expect(byName('glint_reach_campaign_new').props).toEqual({ isNew: true });
+    const studio = byName('glint_reach_content_studio_campaign');
+    expect(studio.path).toBe('content-studio/:campaignId(\\d+)');
+    expect(studio.props({ params: { campaignId: '4' } })).toEqual({
+      campaignId: '4',
+    });
+  });
 });

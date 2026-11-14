@@ -1,0 +1,9 @@
+json.id schedule.id
+json.status schedule.status
+json.scheduled_at schedule.scheduled_at.to_i
+json.scheduled_at_iso schedule.scheduled_at.utc.iso8601
+json.timezone schedule.timezone
+json.error_code schedule.error_code
+json.error_message schedule.error_message
+json.attempts schedule.attempts
+json.scheduled_by_id schedule.scheduled_by_id
