@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaigns';
+import { useGlintReachSocialAccountsStore } from 'dashboard/stores/glintReach/socialAccounts';
+import { variantCapabilityWarnings } from '../helpers/capabilities';
 import {
   useGlintReachGenerationsStore,
   isActiveGeneration,
@@ -26,6 +28,7 @@ const MAX_INSTRUCTION = 500;
 const MAX_BODY = 3000;
 const { t } = useI18n();
 const campaignsStore = useGlintReachCampaignsStore();
+const socialStore = useGlintReachSocialAccountsStore();
 const generations = useGlintReachGenerationsStore();
 
 const picker = ref(null);
@@ -70,6 +73,15 @@ const suggestions = computed(() =>
 );
 
 const assets = computed(() => props.variant.assets || []);
+const provider = computed(() =>
+  socialStore.providerByKey(props.variant.platform)
+);
+const hasConnectedAccount = computed(
+  () => socialStore.connectedForProvider(props.variant.platform).length > 0
+);
+const capabilityWarnings = computed(() =>
+  variantCapabilityWarnings(props.variant, provider.value?.capabilities)
+);
 
 const attachAssets = async assetIds => {
   try {
@@ -383,6 +395,29 @@ const useCta = async cta => {
           {{ cta }}
         </button>
       </div>
+    </div>
+    <div
+      v-if="provider && (!hasConnectedAccount || capabilityWarnings.length)"
+      class="flex flex-col gap-1 text-xs"
+      data-testid="variant-capability-hints"
+    >
+      <p
+        v-if="socialStore.hasLoaded && !hasConnectedAccount"
+        class="mb-0 text-n-slate-10"
+      >
+        {{
+          t('GLINT_REACH.SOCIAL.NOT_CONNECTED_HINT', {
+            name: provider.displayName,
+          })
+        }}
+      </p>
+      <p
+        v-for="warning in capabilityWarnings"
+        :key="warning.key"
+        class="px-2 py-1 mb-0 rounded bg-n-amber-3 text-n-amber-11"
+      >
+        {{ t(`GLINT_REACH.SOCIAL.WARNINGS.${warning.key}`, warning.params) }}
+      </p>
     </div>
     <WorkflowPanel
       v-if="campaignId && variant.permissions"

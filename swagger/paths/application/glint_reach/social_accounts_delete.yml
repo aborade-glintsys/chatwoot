@@ -1,0 +1,40 @@
+tags:
+  - GlintReach
+operationId: glint-reach-social-accounts-disconnect
+summary: 'Disconnect a social account'
+description: 'Revokes tokens best-effort, clears stored credentials and marks the social account revoked.'
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+    description: 'Social Account ID'
+responses:
+  '200':
+    description: 'Success'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/glint_reach_social_account'
+  '401':
+    description: 'Unauthenticated, not an account administrator, or not a member of the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: 'GlintReach is not enabled for the account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: 'Resource not found in this account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

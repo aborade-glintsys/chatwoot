@@ -183,6 +183,10 @@ Rails.application.routes.draw do
             resources :generations, only: [:show]
             resources :calendar, only: [:index], controller: 'calendar'
             resources :approvals, only: [:index]
+            resources :social_providers, only: [:index]
+            resources :social_accounts, only: [:index, :destroy] do
+              post :authorize, on: :collection, action: :start_oauth
+            end
             resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
               post :transition, on: :member
               resources :generations, only: [:index, :create]
@@ -787,6 +791,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'glint_reach/oauth/:provider/callback', to: 'glint_reach/oauth_callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'

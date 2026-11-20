@@ -148,6 +148,20 @@ en:
         dispatch_timeout: Publishing did not complete after several attempts.
       calendar:
         invalid_range: Choose a valid date range of at most 62 days.
+      social:
+        unknown_provider: This social provider is not supported.
+        not_configured: This social provider is not configured. Ask an installation admin to add its OAuth credentials.
+        encryption_required: Active Record Encryption keys must be configured before social accounts can be connected.
+        invalid_frontend_url: FRONTEND_URL is not a valid web origin.
+        invalid_state: The connection request expired or could not be verified. Start again from Social Accounts.
+        access_denied: Authorization was cancelled on the social provider.
+        missing_scopes: 'The provider did not grant all required permissions (%{scopes}). Reconnect and accept all requested permissions.'
+        token_exchange_failed: Could not complete sign-in with the social provider. Try connecting again.
+        refresh_unsupported: This provider does not issue refresh tokens. Reconnect the account before it expires.
+        expired: The connection expired. Reconnect the account to continue.
+        revoked: The provider revoked access for this account. Reconnect it to continue.
+        disconnected: Disconnected by an administrator.
+        provider_unavailable: The social provider is temporarily unavailable. Try again in a few minutes.
       assets:
         missing: Choose a file to upload.
         empty: The file is empty.

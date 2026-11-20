@@ -8,6 +8,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaigns';
 import { useGlintReachBrandProfileStore } from 'dashboard/stores/glintReach/brandProfile';
 import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
+import { useGlintReachSocialAccountsStore } from 'dashboard/stores/glintReach/socialAccounts';
 import AiGenerationPanel from '../components/AiGenerationPanel.vue';
 import AssetsPanel from '../components/AssetsPanel.vue';
 import CampaignBriefForm from '../components/CampaignBriefForm.vue';
@@ -27,6 +28,7 @@ const router = useRouter();
 const campaignsStore = useGlintReachCampaignsStore();
 const brandStore = useGlintReachBrandProfileStore();
 const generationsStore = useGlintReachGenerationsStore();
+const socialStore = useGlintReachSocialAccountsStore();
 const shell = inject('glintReachShell', ref(null));
 const aiConfigured = computed(() => Boolean(shell.value?.ai_configured));
 
@@ -59,6 +61,7 @@ const load = async () => {
   resetServerErrors();
   // The brand profile hint is best-effort; it never blocks the studio.
   if (!brandStore.hasLoaded) brandStore.fetch().catch(() => {});
+  if (!socialStore.hasLoaded) socialStore.fetchAll().catch(() => {});
   generationsStore.reset();
   try {
     if (mode.value === 'campaign') {

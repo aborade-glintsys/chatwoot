@@ -1028,3 +1028,23 @@
     - $ref: '#/components/parameters/account_id'
   get:
     $ref: ./application/glint_reach/approvals_index.yml
+/api/v1/accounts/{account_id}/glint_reach/social_providers:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/social_providers_index.yml
+/api/v1/accounts/{account_id}/glint_reach/social_accounts:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/glint_reach/social_accounts_index.yml
+/api/v1/accounts/{account_id}/glint_reach/social_accounts/authorize:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/glint_reach/social_accounts_authorize.yml
+/api/v1/accounts/{account_id}/glint_reach/social_accounts/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  delete:
+    $ref: ./application/glint_reach/social_accounts_delete.yml

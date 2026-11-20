@@ -363,6 +363,54 @@
     "APPROVALS": {
       "EMPTY": "No content is waiting for review.",
       "META": "{campaign} · {platform} · submitted by {name}"
+    },
+    "SOCIAL": {
+      "DESCRIPTION": "Connect eligible social profiles and inspect each provider's publishing limits.",
+      "PROVIDERS_TITLE": "Supported providers",
+      "ACCOUNTS_TITLE": "Connected accounts",
+      "READY": "Ready",
+      "SETUP_REQUIRED": "Setup required",
+      "CONNECT": "Connect {name}",
+      "RECONNECT": "Reconnect",
+      "DISCONNECT": "Disconnect",
+      "DISCONNECTED": "Social account disconnected.",
+      "DISCONNECT_FAILED": "Could not disconnect the social account.",
+      "CONNECT_FAILED": "Could not start the connection.",
+      "DISCONNECT_TITLE": "Disconnect this social account?",
+      "DISCONNECT_DESCRIPTION": "Stored tokens will be revoked and removed. Scheduled posts for this account will not publish until it is reconnected.",
+      "EMPTY": "No social accounts connected yet.",
+      "ACCOUNT_META": "{provider} · {type} profile",
+      "SCOPES": "Granted permissions: {scopes}",
+      "ENCRYPTION_MISSING": "Active Record Encryption keys are not configured. Set ACTIVE_RECORD_ENCRYPTION_* environment variables before connecting accounts.",
+      "CREDENTIALS_MISSING": "OAuth credentials are not configured yet. Ask an installation admin to add them in Super Admin → Installation Config.",
+      "NOT_CONNECTED_HINT": "No {name} account is connected for this workspace yet.",
+      "CAPABILITIES": {
+        "POST_TYPES": "Post types",
+        "TEXT_LIMIT": "Text limit",
+        "CHARS": "{count} characters",
+        "IMAGES": "Images",
+        "MAX_IMAGES": "Up to {count} per post",
+        "TOKEN_LIFETIME": "Connection lasts",
+        "DAYS": "~{days} days (reconnect required)"
+      },
+      "STATUS": {
+        "CONNECTED": "Connected",
+        "EXPIRES_IN": "Expires in {days} days",
+        "EXPIRED": "Expired — reconnect required",
+        "REVOKED": "Disconnected",
+        "MISSING_SCOPES": "Missing permissions",
+        "ERROR": "Connection error"
+      },
+      "CALLBACK": {
+        "CONNECTED": "Social account connected.",
+        "MISSING_SCOPES": "Connected, but required posting permissions were not granted. Reconnect and approve all requested permissions.",
+        "ACCESS_DENIED": "Authorization was cancelled on the provider.",
+        "ERROR": "Could not finish connecting the social account. Please try again."
+      },
+      "WARNINGS": {
+        "TEXT_TOO_LONG": "Text is {count} characters; this channel allows at most {max}.",
+        "TOO_MANY_IMAGES": "{count} images attached; this channel allows at most {max}."
+      }
     }
   }
 }

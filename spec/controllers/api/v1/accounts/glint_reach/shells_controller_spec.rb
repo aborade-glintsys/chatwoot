@@ -42,7 +42,7 @@ RSpec.describe 'GlintReach Shell API', type: :request do
         expect(body['ai_configured']).to be(false)
         expect(body['modules'].pluck('key')).to eq(%w[overview brand_profile campaigns content_studio calendar social_accounts analytics])
         available = body['modules'].select { |mod| mod['available'] }.pluck('key')
-        expect(available).to eq(%w[overview brand_profile campaigns content_studio calendar])
+        expect(available).to eq(%w[overview brand_profile campaigns content_studio calendar social_accounts])
       end
     end
 

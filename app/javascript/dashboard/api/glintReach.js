@@ -110,6 +110,22 @@ class GlintReachAPI extends ApiClient {
     return axios.get(`${this.url}/approvals`, { params: { page } });
   }
 
+  getSocialProviders() {
+    return axios.get(`${this.url}/social_providers`);
+  }
+
+  getSocialAccounts() {
+    return axios.get(`${this.url}/social_accounts`);
+  }
+
+  authorizeSocialAccount(provider) {
+    return axios.post(`${this.url}/social_accounts/authorize`, { provider });
+  }
+
+  disconnectSocialAccount(id) {
+    return axios.delete(`${this.url}/social_accounts/${id}`);
+  }
+
   setVariantAssets({ campaignId, contentItemId, variantId }, assetIds) {
     return axios.put(
       `${this.variantUrl(campaignId, contentItemId, variantId)}/assets`,

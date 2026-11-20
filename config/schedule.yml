@@ -98,3 +98,9 @@ glint_reach_dispatch_due_schedules_job:
   cron: '* * * * *'
   class: 'GlintReach::DispatchDueSchedulesJob'
   queue: scheduled_jobs
+
+# executed daily at 03:00 UTC; expires/verifies GlintReach social tokens and cleans up OAuth states
+glint_reach_verify_social_accounts_job:
+  cron: '0 3 * * *'
+  class: 'GlintReach::VerifySocialAccountsJob'
+  queue: scheduled_jobs

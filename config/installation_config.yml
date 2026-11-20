@@ -700,3 +700,17 @@
   value: 'production'
   locked: false
 ## ---- End of mobile incoming-call push ---- ##
+
+## ------ Configs for GlintReach Social OAuth ------ ##
+- name: GLINT_REACH_LINKEDIN_CLIENT_ID
+  display_title: 'GlintReach LinkedIn Client ID'
+  value:
+  locked: false
+  description: 'OAuth 2.0 Client ID from the LinkedIn Developer Portal (OpenID Connect + Share on LinkedIn)'
+- name: GLINT_REACH_LINKEDIN_CLIENT_SECRET
+  display_title: 'GlintReach LinkedIn Client Secret'
+  value:
+  locked: false
+  description: 'OAuth 2.0 Client Secret from the LinkedIn Developer Portal'
+  type: secret
+## ---- End of GlintReach Social OAuth ---- ##

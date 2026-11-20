@@ -1,0 +1,50 @@
+type: object
+description: Connected social account metadata and capabilities. OAuth tokens are never returned.
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  provider:
+    type: string
+    enum: [linkedin]
+  provider_account_id:
+    type: string
+  provider_account_type:
+    type: string
+  display_name:
+    type: string
+  profile_url:
+    type: [string, 'null']
+  avatar_url:
+    type: [string, 'null']
+  granted_scopes:
+    type: array
+    items:
+      type: string
+  status:
+    type: string
+    enum: [connected, expired, revoked, missing_scopes, error]
+  token_expires_at:
+    type: [integer, 'null']
+  refresh_expires_at:
+    type: [integer, 'null']
+  last_error_code:
+    type: [string, 'null']
+  last_error_message:
+    type: [string, 'null']
+  last_verified_at:
+    type: [integer, 'null']
+  capabilities:
+    type: object
+  connected_by:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: [string, 'null']
+  created_at:
+    type: integer
+  updated_at:
+    type: integer

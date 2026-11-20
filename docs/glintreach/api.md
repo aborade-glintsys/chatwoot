@@ -1,4 +1,4 @@
-# GlintReach API (Phases 02–06)
+# GlintReach API (Phases 02–07)
 
 Base path: `/api/v1/accounts/:account_id/glint_reach`
 
@@ -124,6 +124,17 @@ Variant JSON adds `lock_version`, `editable`, `submitted_by_id`, `submitted_at`,
 `timezone` (the account reporting zone as IANA, or null). The Phase 02 `/transition` endpoint now supports
 only `draft→in_review`, `changes_requested→in_review`, `in_review→draft` and `approved|failed→draft`
 (through the workflow); other moves return 409. Details: [workflow.md](workflow.md).
+
+## Social accounts and OAuth (Phase 07)
+| Method | Path | Body | Notes |
+| --- | --- | --- | --- |
+| GET | `/social_providers` | – | Registered providers with `configured`, `encryption_configured`, `connectable`, `required_scopes`, `approval_notes`, and `capabilities` |
+| GET | `/social_accounts` | – | Connected social accounts for `Current.account` (metadata, status, scopes, expiry, capabilities). **Tokens are never returned** |
+| POST | `/social_accounts/authorize` | `{ provider }` | Starts OAuth: creates a single-use server-side state + PKCE pair, sets an `HttpOnly`, `SameSite=Lax` browser-binding cookie, and returns `{ url }`. Returns `422` when credentials or Active Record Encryption keys are missing |
+| DELETE | `/social_accounts/:id` | – | Best-effort provider revoke, wipes stored tokens and marks status `revoked`. Cross-account IDs return `404` |
+| GET (top-level) | `/glint_reach/oauth/:provider/callback` | – | Validates state + browser cookie + admin/flag, exchanges code, verifies ID token & scopes, upserts the account and redirects to Social Accounts with `?oauth=...` |
+
+Details, provider comparison, setup and external approval prerequisites: [social-providers.md](social-providers.md).
 
 ## Lifecycle
 | Record | Transitions |

@@ -12,6 +12,7 @@ import { useGlintReachCampaignsStore } from 'dashboard/stores/glintReach/campaig
 import { useGlintReachGenerationsStore } from 'dashboard/stores/glintReach/generations';
 import { useGlintReachAssetsStore } from 'dashboard/stores/glintReach/assets';
 import { useGlintReachCalendarStore } from 'dashboard/stores/glintReach/calendar';
+import { useGlintReachSocialAccountsStore } from 'dashboard/stores/glintReach/socialAccounts';
 
 // The dashboard router only enforces `meta.permissions`, so the feature flag is
 // gated here and re-verified by the server before any child page renders.
@@ -36,6 +37,7 @@ const fetchShell = async () => {
   useGlintReachGenerationsStore().reset();
   useGlintReachAssetsStore().reset();
   useGlintReachCalendarStore().reset();
+  useGlintReachSocialAccountsStore().reset();
   shell.value = null;
   isDenied.value = false;
   if (!isEnabled.value) return;

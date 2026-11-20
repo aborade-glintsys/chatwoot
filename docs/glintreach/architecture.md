@@ -182,6 +182,15 @@ outbound messaging), `CampaignPolicy`, `Api::V1::Accounts::CampaignsController`,
   No publishers yet, so due posts fail with `publisher_unavailable`. Calendar module (calendar, list,
   approvals). See [workflow.md](workflow.md).
 
+### 6.6 Implemented in Phase 07
+- `GlintReach::SocialAccount` (`glint_reach_social_accounts`, encrypted OAuth tokens via Active Record
+  Encryption, mandatory key guard, tokens excluded from JSON/logs/audits) and `GlintReach::OauthState`
+  (single-use server-side state + PKCE + browser-cookie nonce binding).
+- Provider abstraction (`GlintReach::Social::Providers::Base`, `Linkedin`, `Capabilities`, `OauthFlow`)
+  starting with LinkedIn personal member profiles (self-serve OIDC + Share on LinkedIn).
+- Daily `GlintReach::VerifySocialAccountsJob` (expiry + 401 revocation check + OAuth state cleanup).
+- Social Accounts module UI + Content Studio capability warnings. See [social-providers.md](social-providers.md).
+
 ## 7. Tenant isolation principles
 - Every GlintReach table has `account_id NOT NULL` + index; queries start from `Current.account`.
 - Jobs receive primitive IDs and re-load through the account.

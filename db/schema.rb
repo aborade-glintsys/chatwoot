@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_13_100002) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_20_071501) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1431,6 +1431,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_13_100002) do
     t.index ["content_variant_id"], name: "index_glint_reach_generations_on_content_variant_id"
   end
 
+  create_table "glint_reach_oauth_states", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.string "provider", null: false
+    t.string "state_digest", null: false
+    t.string "browser_nonce_digest", null: false
+    t.text "code_verifier", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "consumed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_glint_reach_oauth_states_on_expires_at"
+    t.index ["state_digest"], name: "index_glint_reach_oauth_states_on_state_digest", unique: true
+  end
+
   create_table "glint_reach_schedules", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "content_variant_id", null: false
@@ -1449,6 +1464,31 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_13_100002) do
     t.index ["account_id", "scheduled_at"], name: "index_glint_reach_schedules_on_account_id_and_scheduled_at"
     t.index ["content_variant_id"], name: "index_glint_reach_schedules_one_live_per_variant", unique: true, where: "(status = ANY (ARRAY[0, 1]))"
     t.index ["status", "scheduled_at"], name: "index_glint_reach_schedules_on_status_and_scheduled_at"
+  end
+
+  create_table "glint_reach_social_accounts", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "connected_by_id", null: false
+    t.string "provider", null: false
+    t.string "provider_account_id", null: false
+    t.string "provider_account_type", default: "member", null: false
+    t.string "display_name", null: false
+    t.string "profile_url"
+    t.string "avatar_url"
+    t.text "access_token"
+    t.text "refresh_token"
+    t.string "granted_scopes", default: [], null: false, array: true
+    t.datetime "token_expires_at"
+    t.datetime "refresh_expires_at"
+    t.integer "status", default: 0, null: false
+    t.string "last_error_code"
+    t.string "last_error_message", limit: 500
+    t.datetime "last_verified_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "provider", "provider_account_id"], name: "index_glint_reach_social_accounts_unique_identity", unique: true
+    t.index ["account_id", "status"], name: "index_glint_reach_social_accounts_on_account_id_and_status"
+    t.index ["status", "token_expires_at"], name: "idx_on_status_token_expires_at_d75b05819e"
   end
 
   create_table "glint_reach_variant_assets", force: :cascade do |t|
@@ -1976,8 +2016,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_13_100002) do
   add_foreign_key "glint_reach_content_items", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
   add_foreign_key "glint_reach_content_variants", "glint_reach_content_items", column: "content_item_id", on_delete: :cascade
   add_foreign_key "glint_reach_generations", "glint_reach_campaigns", column: "campaign_id", on_delete: :cascade
+  add_foreign_key "glint_reach_oauth_states", "accounts", on_delete: :cascade
   add_foreign_key "glint_reach_schedules", "glint_reach_approvals", column: "approval_id", on_delete: :cascade
   add_foreign_key "glint_reach_schedules", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
+  add_foreign_key "glint_reach_social_accounts", "accounts", on_delete: :cascade
   add_foreign_key "glint_reach_variant_assets", "glint_reach_assets", column: "asset_id", on_delete: :cascade
   add_foreign_key "glint_reach_variant_assets", "glint_reach_content_variants", column: "content_variant_id", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
